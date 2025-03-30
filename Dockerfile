@@ -3,7 +3,7 @@
 ###############################
 # 1단계: 빌드 스테이지
 ###############################
-FROM oven/bun:latest as builder
+FROM oven/bun:1.2.0 as builder
 WORKDIR /app
 
 # 패키지 파일 복사 후 의존성 설치
@@ -23,7 +23,7 @@ RUN --mount=type=secret,id=env \
 ###############################
 # 2단계: 실행 스테이지
 ###############################
-FROM oven/bun:latest as runner
+FROM oven/bun:1.2.0 as runner
 WORKDIR /app
 
 # 빌드 결과물과 의존성만 복사

@@ -9,10 +9,10 @@
   "scripts": {
     "frontend": "bun --cwd frontend",
     "backend": "bun --cwd backend",
-    "dev": "concurrently \"bun frontend dev\" \"bun backend dev\"",
-    "start": "concurrently \"bun frontend start\" \"bun backend start\"",
+    "dev": "concurrently --names \"FE,BE\" \"bun frontend dev\" \"bun backend dev\"",
+    "start": "concurrently --names \"FE,BE\"un frontend start\" \"bun backend start\"",
     "build": "bun frontend build",
-    "lint": "concurrently \"bun frontend lint\" \"bun backend lint\""
+    "lint": "concurrently --names \"FE,BE\"\"bun frontend lint\" \"bun backend lint\""
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

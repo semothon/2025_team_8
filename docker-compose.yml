@@ -1,0 +1,32 @@
+services:
+  semothon-db:
+    image: mongodb/mongodb-community-server:5.0-ubuntu2004
+    container_name: db
+    command: mongod --quiet --logpath /dev/null
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./.data:/data/db
+      # - ./common/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    environment:
+      MONGODB_INITDB_ROOT_USERNAME: root
+      MONGODB_INITDB_ROOT_PASSWORD: example
+    
+    
+  semothon:
+    image: oven/bun:1.2.0
+    container_name: app
+    working_dir: /app
+    volumes:
+      - ./:/app
+    network_mode: host
+    ports:
+      - "3000:3000"
+      - "8000:8000"
+    command: ["sh", "-c", "bun install && bun run dev"]
+    environment:
+      NODE_ENV: development
+    env_file:
+      - .env
+    depends_on:
+      - semothon-db
