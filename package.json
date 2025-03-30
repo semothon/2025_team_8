@@ -11,7 +11,7 @@
     "backend": "bun --cwd backend",
     "dev": "concurrently \"bun frontend dev\" \"bun backend dev\"",
     "start": "concurrently \"bun frontend start\" \"bun backend start\"",
-    "build": "concurrently \"bun frontend build\" \"bun backend build\"",
+    "build": "bun frontend build",
     "lint": "concurrently \"bun frontend lint\" \"bun backend lint\""
   },
   "devDependencies": {
