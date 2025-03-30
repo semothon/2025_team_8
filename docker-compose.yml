@@ -29,6 +29,7 @@ services:
       NEXT_PUBLIC_APP_URL: http://localhost:3000
       NEXT_PUBLIC_API_URL: http://localhost:8000
       NEXT_PUBLIC_GOOGLE_CLIENT_ID: 437653595386-dpj6006b1cjfqrhte7ghk9988mmkh1p1.apps.googleusercontent.com
+      JWT_SECRET: test12345678
     env_file:
       - .env
     depends_on:
