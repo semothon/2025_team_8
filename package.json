@@ -7,15 +7,16 @@
     "backend"
   ],
   "scripts": {
-    "front": "bun --cwd frontend",
-    "back": "bun --cwd backend",
-    "dev": "concurrently \"bun front dev\" \"bun back dev\"",
-    "start": "concurrently \"bun front start\" \"bun back start\"",
-    "build": "concurrently \"bun front build\" \"bun back build\"",
-    "lint": "concurrently \"bun front lint\" \"bun back lint\""
+    "frontend": "bun --cwd frontend",
+    "backend": "bun --cwd backend",
+    "dev": "concurrently \"bun frontend dev\" \"bun backend dev\"",
+    "start": "concurrently \"bun frontend start\" \"bun backend start\"",
+    "build": "concurrently \"bun frontend build\" \"bun backend build\"",
+    "lint": "concurrently \"bun frontend lint\" \"bun backend lint\""
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "concurrently": "^9.1.2",
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
     "eslint-plugin-react-hooks": "^5.2.0",
