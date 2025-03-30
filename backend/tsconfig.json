@@ -1,0 +1,15 @@
+{
+  "extends": "../common/tsconfig.json",
+  "compilerOptions": {
+    "types": ["bun-types"],
+    "baseUrl": ".",
+    "paths": {
+      "@back/*": ["./src/*"],
+      "@front/*": ["../front/src/*"],
+      "@common/*": ["../common/*"]
+    }
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"],
+  "references": []
+}
