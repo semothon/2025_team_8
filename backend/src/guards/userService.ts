@@ -22,7 +22,7 @@ const userService = new Elysia({ name: "user/service" })
             if (!refresh_token) return exit(error, "UNAUTHORIZED");
             const verifyR = await user.verifyToken(refresh_token);
             if (!verifyR) return exit(error, "UNAUTHORIZED");
-            const find = await user.findById(verifyR.id);
+            const find = await user.db.findById(verifyR.id);
             if (!find) return exit(error, "UNAUTHORIZED");
             const refresh = await user.generateToken(find, "refresh");
             const access = await user.generateToken(find, "access");

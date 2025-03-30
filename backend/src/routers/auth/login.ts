@@ -1,4 +1,4 @@
-import Bun from "bun";
+import axios from "axios";
 import Elysia, { t } from "elysia";
 
 import User from "@back/models/user";
@@ -8,13 +8,31 @@ import exit, { errorElysia } from "@back/utils/error";
 const login = new Elysia().use(User).post(
   "login",
   async ({ body, user, cookie, error }) => {
-    const find = await user.findByUsername(body.username);
-    if (!find) return exit(error, "USER_NOT_FOUND");
-    const isValid = await Bun.password.verify(body.password, find.password);
-    if (!isValid) return exit(error, "INVALID_PASSWORD");
+    const googleResponse = await axios.get("https://www.googleapis.com/oauth2/v3/userinfo", {
+      headers: {
+        Authorization: `Bearer ${body.token}`,
+      },
+    });
+    if (googleResponse.status !== 200) {
+      return exit(error, "INVALID_TOKEN");
+    }
+    const { email, picture, name } = googleResponse.data;
+    console.log(googleResponse.data);
 
-    const refresh = await user.generateToken(find, "refresh");
-    const access = await user.generateToken(find, "access");
+    const update = await user.db.findOneAndUpdate(
+      { email },
+      {
+        picture,
+        name,
+      },
+      {
+        new: true,
+        upsert: true,
+      },
+    );
+
+    const refresh = await user.generateToken(update, "refresh");
+    const access = await user.generateToken(update, "access");
 
     cookie.refresh_token.set({
       value: refresh,
@@ -39,12 +57,14 @@ const login = new Elysia().use(User).post(
     };
   },
   {
-    body: "user",
+    body: t.Object({
+      token: t.String(),
+    }),
     response: {
       200: t.Object({
         success: t.Boolean(),
       }),
-      ...errorElysia(["USER_NOT_FOUND", "INVALID_PASSWORD"]),
+      ...errorElysia(["USER_NOT_FOUND", "INVALID_TOKEN"]),
     },
   },
 );

@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import React from "react";
+
+import Providers from "@front/providers";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,7 +17,9 @@ const RootLayout = ({
   return (
     <html lang="ko">
       <body className="antialiased">
-        {children}
+        <Providers>
+          {children}
+        </Providers>
       </body>
     </html>
   );

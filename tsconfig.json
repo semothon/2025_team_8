@@ -10,7 +10,8 @@
     "paths": {
       "@front/*": ["front/src/*"],
       "@back/*": ["back/src/*"],
-      "@common/*": ["common/*"]
+      "@common/*": ["common/src/*"],
+      "@types/*": ["common/types/*"]
     }
   }
 }

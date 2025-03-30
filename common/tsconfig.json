@@ -13,5 +13,10 @@
     "incremental": true,
     "isolatedModules": true,
     "baseUrl": ".",
+    "paths": {
+      "@front/*": ["../frontend/src/*"],
+      "@back/*": ["../backend/src/*"],
+      "@common/*": ["../common/*"],
+    },
   }
 }

@@ -4,7 +4,6 @@ import exit from "@back/utils/error";
 
 import userService from "./userService";
 
-
 const getUserInfo = new Elysia()
   .use(userService)
   .guard({
@@ -19,8 +18,8 @@ const getUserInfo = new Elysia()
     if (!verify) {
       return exit(error, "UNAUTHORIZED");
     }
-    const userSearch = await user.findById(verify.id);
-    const { password, ...userInfo } = { ...userSearch?.toObject() };
+    const userSearch = await user.db.findById(verify.id);
+    const { ...userInfo } = { ...userSearch?.toObject() };
     return {
       userInfo: {
         ...userInfo,

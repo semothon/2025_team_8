@@ -28,6 +28,7 @@ services:
       MONGODB_URI: mongodb://root:example@localhost:27017/semothon?authSource=admin
       NEXT_PUBLIC_APP_URL: http://localhost:3000
       NEXT_PUBLIC_API_URL: http://localhost:8000
+      NEXT_PUBLIC_GOOGLE_CLIENT_ID: 437653595386-dpj6006b1cjfqrhte7ghk9988mmkh1p1.apps.googleusercontent.com
     env_file:
       - .env
     depends_on:

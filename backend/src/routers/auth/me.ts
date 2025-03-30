@@ -1,21 +1,22 @@
 import Elysia, { t } from "elysia";
 
+import { Me } from "@common/types/responses";
+
 import getUserInfo from "@back/guards/getUserInfo";
-import { Me } from "@back/utils/responses";
 
 const me = new Elysia().use(getUserInfo).get(
   "me",
   async ({ userInfo }): Promise<Me> => {
     return {
       id: userInfo.id,
-      username: userInfo.username,
+      email: userInfo.email,
     };
   },
   {
     response: {
       200: t.Object({
         id: t.String(),
-        username: t.String(),
+        email: t.String(),
       }),
     },
   },

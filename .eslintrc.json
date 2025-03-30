@@ -40,7 +40,7 @@
     ],
     "react-native/no-inline-styles": "off",
     "react-hooks/exhaustive-deps": "off",
-    "no-unused-vars": "off",
+    "no-unused-vars": "warn",
 "import/order": [
   "error",
   {
@@ -54,17 +54,17 @@
     ],
     "pathGroups": [
       {
+        "pattern": "@common/**",
+        "group": "internal",
+        "position": "after"
+      },
+      {
         "pattern": "@front/**",
         "group": "internal",
         "position": "after"
       },
       {
         "pattern": "@back/**",
-        "group": "internal",
-        "position": "after"
-      },
-      {
-        "pattern": "@common/**",
         "group": "internal",
         "position": "after"
       }
