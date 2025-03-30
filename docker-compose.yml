@@ -12,7 +12,6 @@ services:
       MONGODB_INITDB_ROOT_USERNAME: root
       MONGODB_INITDB_ROOT_PASSWORD: example
     
-    
   semothon:
     image: oven/bun:1.2.0
     container_name: app
@@ -26,6 +25,9 @@ services:
     command: ["sh", "-c", "bun install && bun run dev"]
     environment:
       NODE_ENV: development
+      MONGODB_URI: mongodb://root:example@localhost:27017/semothon?authSource=admin
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+      NEXT_PUBLIC_API_URL: http://localhost:8000
     env_file:
       - .env
     depends_on:
