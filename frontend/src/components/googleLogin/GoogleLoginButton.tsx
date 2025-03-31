@@ -14,6 +14,11 @@ const GoogleLoginButton = () => {
       const { data } = await instance.post("/auth/login", {
         token: res.access_token,
       });
+      if (data.success) {
+        router.replace("/");
+      } else {
+        alert("로그인에 실패했습니다.");
+      }
     },
     hosted_domain: "khu.ac.kr",
     flow: "implicit",

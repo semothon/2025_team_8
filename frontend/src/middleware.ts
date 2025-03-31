@@ -34,7 +34,7 @@ export const middleware = async (request: Readonly<NextRequest>) => {
     if (check_need_auth) {
       if (data.success) {
         console.log(1);
-        return NextResponse.redirect(new URL("/", origin));
+        return NextResponse.next();
       } else {
         console.log(2);
         return NextResponse.redirect(new URL("/auth/login", origin));
