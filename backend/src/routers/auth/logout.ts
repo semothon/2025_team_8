@@ -29,6 +29,11 @@ const logout = new Elysia().post(
         success: t.Boolean(),
       }),
     },
+    detail: {
+      tags: ["Auth"],
+      summary: "로그아웃",
+      description: "쿠키에 있는 refresh_token과 access_token을 삭제하여 로그아웃합니다.",
+    }
   },
 );
 

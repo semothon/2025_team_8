@@ -23,7 +23,16 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 const app = new Elysia();
 
 if (Bun.env.NODE_ENV === "development") { 
-  app.use(swagger());
+  app.use(swagger({
+    documentation: {
+      tags: [
+        {
+          name: "Auth",
+          description: "인증에 관련된 API입니다.",
+        }
+      ]
+    }
+  }));
 }
 
 app.use(

@@ -4,7 +4,6 @@ import check from "./check";
 import login from "./login";
 import logout from "./logout";
 import me from "./me";
-import refresh from "./refresh";
 
 const AuthRouter = new Elysia({
   name: "Auth Router",
@@ -12,7 +11,6 @@ const AuthRouter = new Elysia({
 })
   .use(login)
   .use(logout)
-  .use(refresh)
   .use(check)
   .use(me);
 

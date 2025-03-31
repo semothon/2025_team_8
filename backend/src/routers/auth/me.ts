@@ -19,6 +19,11 @@ const me = new Elysia().use(getUserInfo).get(
         email: t.String(),
       }),
     },
+    detail: {
+      tags: ["Auth"],
+      summary: "내 정보 가져오기",
+      description: "나의 정보를 가져옵니다.",
+    }
   },
 );
 

@@ -65,6 +65,11 @@ const login = new Elysia().use(User).post(
       }),
       ...errorElysia(["USER_NOT_FOUND", "INVALID_TOKEN"]),
     },
+    detail: {
+      tags: ["Auth"],
+      summary: "구글 로그인",
+      description: "구글 로그인에서 받은 토큰을 통해 로그인합니다.",
+    }
   },
 );
 

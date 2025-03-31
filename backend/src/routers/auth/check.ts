@@ -24,6 +24,11 @@ const check = new Elysia().use(User).post(
       }),
       ...errorElysia(["NO_REFRESH_TOKEN", "UNAUTHORIZED"]),
     },
+    detail: {
+      tags: ["Auth"],
+      summary: "Refresh Token 확인",
+      description: "NextJS의 Middleware에서 사용되는 API입니다. refresh_token을 통해 유효성을 검사합니다.",
+    }
   },
 );
 
