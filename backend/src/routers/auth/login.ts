@@ -57,11 +57,13 @@ const login = new Elysia().use(User).post(
   },
   {
     body: t.Object({
-      token: t.String(),
+      token: t.String({
+        description: "구글 로그인에서 받은 토큰",
+      }),
     }),
     response: {
       200: t.Object({
-        success: t.Boolean(),
+        success: t.Boolean({}),
       }),
       ...errorElysia(["USER_NOT_FOUND", "INVALID_TOKEN"]),
     },

@@ -16,7 +16,9 @@ const check = new Elysia().use(User).post(
   },
   {
     body: t.Object({
-      refresh_token: t.String(),
+      refresh_token: t.String({
+        description: "사용자의 refresh_token",
+      }),
     }),
     response: {
       200: t.Object({
