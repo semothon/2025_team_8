@@ -17,7 +17,6 @@ const login = new Elysia().use(User).post(
       return exit(error, "INVALID_TOKEN");
     }
     const { email, picture, name } = googleResponse.data;
-    console.log(googleResponse.data);
 
     const update = await user.db.findOneAndUpdate(
       { email },
