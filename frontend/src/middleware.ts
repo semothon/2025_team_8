@@ -17,7 +17,7 @@ export const middleware = async (request: Readonly<NextRequest>) => {
     const no_auth = ["/auth"]; // 로그인이 되어 있지 않은 상태에서만 접근 가능한 페이지
     const need_auth = ["/only_login"]; // 로그인이 되어 있어야 접근 가능한 페이지
 
-    const check_no_auth = no_auth.some((path) => pathname.includes(path));
+    const check_no_auth = no_auth.some((path) => pathname.includes(path) && pathname !== `${path}/login`);
     const check_need_auth = need_auth.some((path) => pathname.includes(path));
     if(!check_no_auth && !check_need_auth) return NextResponse.next();
 
