@@ -8,7 +8,7 @@ const getTimetable = new Elysia()
   .guard({
     params: t.Object({
       timetable_id: t.String({
-        description: "타임테이블 ID",
+        description: "캘린더 ID",
       }),
     }),
     response: {

@@ -81,7 +81,7 @@ const importFromICS = new Elysia().use(EventModel).post(
     detail: {
       tags: ["Event"],
       summary: "ICS 파일을 업로드하여 이벤트를 생성",
-      description: "ICS (.ics) 파일을 업로드하고, 해당 타임테이블에 이벤트를 등록합니다.",
+      description: "ICS (.ics) 파일을 업로드하고, 해당 캘린더에 이벤트를 등록합니다.",
     },
     body: t.Object(
       {

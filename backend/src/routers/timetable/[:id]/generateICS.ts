@@ -18,7 +18,7 @@ const generateICSLink = new Elysia()
     },
     {
       params: t.Object({
-        id: t.String({ description: "타임테이블 ID" }),
+        id: t.String({ description: "캘린더 ID" }),
       }),
       response: t.Object({
         link: t.String({ description: "ICS 구독 링크" }),
@@ -26,7 +26,7 @@ const generateICSLink = new Elysia()
       detail: {
         tags: ["Timetable"],
         summary: "ICS 구독 링크 생성",
-        description: "현재 사용자가 접근 가능한 타임테이블에 대한 .ics 구독 링크를 생성합니다.",
+        description: "현재 사용자가 접근 가능한 캘린더에 대한 .ics 구독 링크를 생성합니다.",
       }
     }
   );

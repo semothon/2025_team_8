@@ -26,7 +26,7 @@ const updateTimetable = new Elysia()
     },
     {
       params: t.Object({
-        id: t.String({ description: "타임테이블 ID" }),
+        id: t.String({ description: "캘린더 ID" }),
       }),
       body: t.Object({
         name: t.Optional(t.String({ description: "새 이름" })),

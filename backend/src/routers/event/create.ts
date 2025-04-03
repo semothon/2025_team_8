@@ -4,7 +4,7 @@ import EventModel from "@back/models/event";
 import exit, { errorElysia } from "@back/utils/error";
 
 const eventCreateSchema = t.Object({
-  timetable_id: t.String({ description: "타임테이블 ID", example: "" }),
+  timetable_id: t.String({ description: "캘린더 ID", example: "" }),
   title: t.String({ example: "회의" }),
   startTime: t.String({ format: "date-time", example: "2025-04-05T10:00:00Z" }),
   endTime: t.String({ format: "date-time", example: "2025-04-05T11:00:00Z" }),

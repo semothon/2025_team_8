@@ -10,7 +10,7 @@ export const ERROR_MESSAGE = {
   NO_TOKEN: [401, "토큰이 없습니다."],
   UNAUTHORIZED: [401, "권한이 없는 사용자입니다."],
   NO_REFRESH_TOKEN: [401, "리프레시 토큰이 없습니다."],
-  TOKEN_TID_MISMATCH:[403, "토큰의 시간표 정보가 일치하지 않습니다."],
+  TOKEN_TID_MISMATCH:[403, "토큰의 캘린더 정보가 일치하지 않습니다."],
 
   INSERT_ACTIVITY_FAILED: [500, "활동(동아리) 생성에 실패했습니다."],
   PERMISSION_DENIED: [403, "접근 권한이 없습니다."],

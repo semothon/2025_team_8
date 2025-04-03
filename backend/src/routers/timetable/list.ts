@@ -1,7 +1,7 @@
 import Elysia, { t } from "elysia";
 
 import getUser from "@back/guards/getUser";
-import TimetableModel, { ITimetable, timetableElysiaSchema } from "@back/models/timetable";
+import TimetableModel, { MappedTimetable, timetableElysiaSchema } from "@back/models/timetable";
 import { IUser } from "@back/models/user";
 import JoinedActivityModel from "@back/models/joined_activity";
 import { ObjectId } from "mongoose";
@@ -9,7 +9,7 @@ import { ObjectId } from "mongoose";
 const listTimetable = new Elysia().use(getUser).use(TimetableModel).use(JoinedActivityModel).get(
   "",
   async ({ timetableModel, user, joinedActivityModel }) => {
-    const userId = (user as IUser)._id
+    const userId = (user as IUser)._id;
 
     const joinedActivity = await joinedActivityModel.db.find({ user_id: userId });
     const activityIds = joinedActivity?.map((j) => j.activity_id);
@@ -25,24 +25,36 @@ const listTimetable = new Elysia().use(getUser).use(TimetableModel).use(JoinedAc
     if (!timetables || timetables.length === 0) {
       return [];
     }
-
-    const timetableList = timetables.map((timetable) => {
-      return {
-        _id: (timetable._id as ObjectId).toString(),
-        name: timetable.name,
-        owner_type: timetable.owner_type,
-        owner: (timetable._id as ObjectId).toString(),
-      };
-    });
+    
+    const timetableList: MappedTimetable[] = timetables.map((timetable) => {
+            const base = {
+              _id: (timetable._id as ObjectId).toString(),
+              name: timetable.name,
+              owner: (timetable.owner as ObjectId).toString(),
+            };
+          
+            if (timetable.owner_type === "activity") {
+              return {
+                ...base,
+                owner_type: "activity",
+                visibility: timetable.visibility ?? "member",
+              } satisfies MappedTimetable;
+            }
+          
+            return {
+              ...base,
+              owner_type: timetable.owner_type,
+            } satisfies MappedTimetable;
+          });
 
     return timetableList;
   },
   {
     detail: {
       tags: ["Timetable"],
-      summary: "사용자가 접근 가능한 타임테이블 목록 조회",
+      summary: "사용자가 접근 가능한 캘린더 목록 조회",
       description:
-        "사용자 본인, 소속된 동아리, 또는 전역(global) 공개된 시간표들을 모두 불러옵니다.",
+        "사용자 본인, 소속된 활동, 또는 전역(global) 공개된 캘린더들을 모두 불러옵니다.",
     },
     response: {
       200: t.Array(timetableElysiaSchema)

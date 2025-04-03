@@ -24,7 +24,7 @@ const deleteTimetable = new Elysia()
     },
     {
       params: t.Object({
-        id: t.String({ description: "타임테이블 ID" }),
+        id: t.String({ description: "캘린더 ID" }),
       }),
       response: {
         200: t.Object({
