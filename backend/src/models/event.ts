@@ -1,6 +1,6 @@
 import { IDocument } from "@common/types/db";
 import Elysia from "elysia";
-import mongoose, { ObjectId, type Document } from "mongoose";
+import mongoose, { ObjectId } from "mongoose";
 
 interface DEvent {
   timetable_id: ObjectId;

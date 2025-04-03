@@ -4,6 +4,8 @@ import exit, { errorElysia } from "@back/utils/error";
 
 import EventModel from "@back/models/event";
 
+const toKST = (date: Date): Date => new Date(date.getTime() + 9 * 60 * 60 * 1000);
+
 const importFromICS = new Elysia().use(EventModel).post(
   "import",
   async ({ body, eventModel, error }: any) => {
@@ -38,14 +40,10 @@ const importFromICS = new Elysia().use(EventModel).post(
         const instances = item.rrule.between(new Date(), expandUntil);
 
         for (const date of instances) {
-          let instanceStart = date;
-          let instanceEnd = new Date(date.getTime() + duration);
-
-          if (isAllDay) {
-            instanceStart = new Date(date);
-            instanceEnd = new Date(date);
-            instanceEnd.setHours(23, 59, 59, 999);
-          }
+          const instanceStart = toKST(new Date(date));
+          const instanceEnd = isAllDay
+          ? new Date(instanceStart.setHours(23, 59, 59, 999))
+          : new Date(instanceStart.getTime() + duration);
 
           inserted.push(
             await eventModel.db.create({
@@ -53,39 +51,22 @@ const importFromICS = new Elysia().use(EventModel).post(
               title: item.summary,
               startTime: instanceStart,
               endTime: instanceEnd,
-              location: item.location || "",
-              memo: item.description || "",
               isAllDay,
             })
           );
         }
-      }
-
-      else {
-        let startTime:Date = item.start;
-        let endTime:Date = item.end;
-      
-        const isAllDay =
-          item.datetype === "date" ||
-          (item.start.getUTCHours() === 0 &&
-            item.start.getUTCMinutes() === 0 &&
-            item.end.getUTCHours() === 0 &&
-            item.end.getUTCMinutes() === 0);
-      
-        if (isAllDay) {
-          startTime = new Date(item.start);
-          endTime = new Date(item.start);
-          endTime.setHours(23, 59, 59, 999);
-        }
+      } else {
+        const startTime = toKST(new Date(item.start));
+        const endTime = isAllDay
+          ? new Date(startTime.setHours(23, 59, 59, 999))
+          : toKST(new Date(item.end));
 
         inserted.push(
           await eventModel.db.create({
             timetable_id: timetableId,
             title: item.summary,
-            startTime: startTime,
-            endTime: endTime,
-            location: item.location || "",
-            memo: item.description || "",
+            startTime,
+            endTime,
             isAllDay,
           })
         );
