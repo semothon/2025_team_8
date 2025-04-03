@@ -18,7 +18,22 @@ export const ERROR_MESSAGE = {
 
   UPDATE_FAILED: [500, "수정에 실패했습니다."],
 
+  DELETE_FAILED: [500, "삭제에 실패했습니다."],
+
   NOT_FOUNDED_KEY: [404, "찾을 수 없는 식당입니다."],
+
+  INSERT_TIMETABLE_FAILED: [500, "캘린더(시간표) 생성에 실패했습니다."],
+  TIMETABLEID_REQUIRED: [400, "캘린더 ID가 필요합니다."],
+  ICS_FILE_REQUIRED: [400, "ics 파일이 필요합니다."],
+  TIMETABLE_NOT_FOUND: [500, "캘린더(시간표)를 찾을 수 없습니다."],
+
+  NO_TIMETABLE_ID: [400, "캘린더 ID가 없습니다."],
+  NO_TIMETABLE: [404, "존재하지 않는 캘린더입니다."],
+
+  INSERT_EVENT_FAILED: [500, "이벤트 생성에 실패했습니다."],
+
+  NO_EVENT_ID: [400, "이벤트 ID가 없습니다."],
+  NO_EVENT: [404, "존재하지 않는 이벤트입니다."],
 } as const;
 
 export type ERROR_MESSAGE_TYPE = typeof ERROR_MESSAGE;
