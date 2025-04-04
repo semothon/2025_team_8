@@ -4,14 +4,19 @@ import { useAtom } from "jotai";
 import PostItem from "./PostItem";
 import { currentPageAtom } from "@front/state/NoticeAtom";
 
-const mockNotices = Array(15).fill({
-  title: "뭐시라뭐시라 이것은 중요한 공지입니다.",
-  author: "최재민",
-  date: "2025. 03. 31. 20:03:47",
-  views: 1222,
-});
+interface Post {
+  id: string;
+  title: string;
+  author: string;
+  date: string;
+  views: number;
+}
 
-export default function PostList() {
+interface PostListProps {
+  postList: Post[];
+}
+
+export default function PostList({ postList }: PostListProps) {
   const [currentPage] = useAtom(currentPageAtom);
 
   return (
@@ -22,7 +27,7 @@ export default function PostList() {
         <div className="text-center">작성일</div>
         <div className="text-right">조회</div>
       </div>
-      {mockNotices.map((notice, index) => (
+      {postList.map((notice, index) => (
         <PostItem key={index} {...notice} />
       ))}
       <div className="border-b border-gray-300" />

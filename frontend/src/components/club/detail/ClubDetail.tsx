@@ -6,11 +6,13 @@ import { usePathname } from "next/navigation";
 const ClubTabBar = () => {
   const pathname = usePathname();
 
-  // 기본 탭
   const baseTabs = [
     { name: "활동 소개", path: "/club/1/introduction" },
     { name: "캘린더", path: "/club/1/calendar" },
     { name: "공지 게시판", path: "/club/1/notice" },
+    { name: "자유 게시판", path: "/club/1/free" },
+    { name: "부원 관리하기", path: "/club/1/member" },
+    { name: "관리하기", path: "/club/1/admin" }
   ];
 
   const loginTab = [
