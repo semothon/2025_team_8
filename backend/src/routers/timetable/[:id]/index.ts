@@ -2,8 +2,10 @@ import Elysia from "elysia";
 
 import deleteTimetable from "./delete";
 import updateTimetable from "./update";
-import generateICSLink from "./generateIcs";
+import importFromICS from "./import";
+import generateICSLink from "./generateICS";
 import exportICS from "./export";
+import createEvent from "./create-event";
 
 const TimetableIdRouter = new Elysia({
   name: "Timetable Router",
@@ -11,7 +13,9 @@ const TimetableIdRouter = new Elysia({
 })
   .use(deleteTimetable)
   .use(updateTimetable)
+  .use(importFromICS)
   .use(generateICSLink)
-  .use(exportICS);
+  .use(exportICS)
+  .use(createEvent);
 
 export default TimetableIdRouter;

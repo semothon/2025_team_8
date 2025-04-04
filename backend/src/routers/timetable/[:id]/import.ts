@@ -1,17 +1,21 @@
 import Elysia, { t } from "elysia";
 import ical from "node-ical";
-import exit, { errorElysia } from "@back/utils/error";
 
 import EventModel from "@back/models/event";
+import timetableAuthorityService from "@back/guards/timetableAuthorityService";
+import exit, { errorElysia } from "@back/utils/error";
 
 const toKST = (date: Date): Date => new Date(date.getTime() + 9 * 60 * 60 * 1000);
 
-const importFromICS = new Elysia().use(EventModel).post(
-  "import",
-  async ({ body, eventModel, error }: any) => {
-    const { file, timetableId } = body;
+const importFromICS = new Elysia()
+  .use(timetableAuthorityService)
+  .use(EventModel)
+  .post(
+    "import",
+    async ({ body, eventModel, timetable, error }: any) => {
+    const { file } = body;
+    const timetableId = timetable._id;
 
-    if (!timetableId) return exit(error, "TIMETABLEID_REQUIRED")
     if (!file || !(file instanceof File)) return exit(error, "ICS_FILE_REQUIRED")
 
     const arrayBuffer = await file.arrayBuffer();
@@ -79,14 +83,13 @@ const importFromICS = new Elysia().use(EventModel).post(
     };
   }, {
     detail: {
-      tags: ["Event"],
-      summary: "ICS 파일을 업로드하여 이벤트를 생성",
+      tags: ["Timetable"],
+      summary: "ICS 파일 가져오기",
       description: "ICS (.ics) 파일을 업로드하고, 해당 캘린더에 이벤트를 등록합니다.",
     },
     body: t.Object(
       {
         file: t.File({ description: "ICS 파일" }),
-        timetableId: t.String({ description: "MongoDB ObjectId" }),
       },
       { contentType: "multipart/form-data" }
     ),

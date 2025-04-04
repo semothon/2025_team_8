@@ -134,8 +134,8 @@ const list = new Elysia()
       }),
       detail: {
         tags: ["Event"],
-        summary: "이벤트 목록 조회 (전체 또는 특정 캘린더)",
-        description: "`timetable_id`가 주어지면 해당 캘린더, 없으면 전체 조회 가능 캘린더의 이벤트를 반환합니다.",
+        summary: "이벤트 목록 조회",
+        description: "`timetable_id`가 주어지면 해당 캘린더, 없으면 해당 사용자가 전체 조회 가능 캘린더의 이벤트를 반환합니다.",
       },
     }
   );

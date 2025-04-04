@@ -2,9 +2,9 @@ import Elysia, { t } from "elysia";
 import { createEvents } from "ics";
 
 import EventModel from "@back/models/event";
-import exit, { errorElysia } from "@back/utils/error";
 import getTimetable from "@back/guards/getTimetable";
-import { verifyIcsAccessToken } from "@back/utils/icsToken";
+import TimetableModel from "@back/models/timetable";
+import exit, { errorElysia } from "@back/utils/error";
 
 const weekdayMap = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];
 
@@ -21,16 +21,17 @@ function findNextValidWeekday(date: Date, allowedWeekdays: string[]): Date {
 const exportICS = new Elysia()
   .use(getTimetable)
   .use(EventModel)
+  .use(TimetableModel)
   .get(
     "export.ics",
-    async ({ query, eventModel, timetable, set, error }) => {
+    async ({ query, eventModel, timetable, timetableModel, set, error }) => {
       const { token } = query;
 
       if (!token) return exit(error, "NO_TOKEN");
 
       let payload;
       try {
-        payload = await verifyIcsAccessToken(token);
+        payload = await timetableModel.verifyIcsAccessToken(token);
       } catch {
         return exit(error, "INVALID_TOKEN");
       }

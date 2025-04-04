@@ -59,18 +59,18 @@ const listTimetable = new Elysia()
       });
 
       return timetableList;
-  },
-  {
-    detail: {
-      tags: ["Activity"],
-      summary: "활동(동아리) 캘린더 목록 조회",
-      description:
-        "전체 공개 또는 멤버 공개 캘린더를 조건에 따라 반환합니다.",
     },
-    response: {
-      200: t.Array(timetableElysiaSchema)
-    }
-  },
-);
+    {
+      detail: {
+        tags: ["Activity"],
+        summary: "활동(동아리) 캘린더 목록 조회",
+        description:
+          "전체 공개 또는 멤버 공개 캘린더를 조건에 따라 반환합니다.",
+      },
+      response: {
+        200: t.Array(timetableElysiaSchema)
+      }
+    },
+  );
 
 export default listTimetable;

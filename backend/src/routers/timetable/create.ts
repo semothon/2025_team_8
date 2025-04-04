@@ -52,7 +52,7 @@ const createTimetable = new Elysia().use(TimetableModel).post(
     },
     detail: {
       tags: ["Timetable"],
-      summary: "캘린더 생성",
+      summary: "캘린더(시간표) 생성",
       description: `"global", "user", "activity" 모든 경우에 owner는 필수이며, "activity"일 경우만 visibility 필드가 유효합니다.`,
     },
   }

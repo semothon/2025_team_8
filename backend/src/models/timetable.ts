@@ -1,5 +1,7 @@
+import Bun from "bun";
 import Elysia, { t } from "elysia";
 import mongoose, { ObjectId } from "mongoose";
+import { SignJWT, jwtVerify } from "jose";
 
 import { IDocument } from "@common/types/db";
 
@@ -78,9 +80,25 @@ const timetableSchema = new mongoose.Schema<ITimetable>({
 });
 const TimetableDB = mongoose.model<ITimetable>("Timetable", timetableSchema);
 
+const generateIcsAccessToken = async (timetableId: string, userId: string) => {
+  const secret = new TextEncoder().encode(Bun.env.JWT_SECRET ?? "");
+  return await new SignJWT({ tid: timetableId, uid: userId })
+    .setProtectedHeader({ alg: "HS256" })
+    .setExpirationTime("1d")
+    .sign(secret);
+};
+
+const verifyIcsAccessToken = async (token: string): Promise<{ tid: string; uid: string }> => {
+  const secret = new TextEncoder().encode(Bun.env.JWT_SECRET ?? "");
+  const { payload } = await jwtVerify(token, secret);
+  return payload as { tid: string; uid: string };
+};
+
 const TimetableModel = new Elysia()
   .decorate("timetableModel", {
     db: TimetableDB,
+    generateIcsAccessToken,
+    verifyIcsAccessToken,
   });
 
 export default TimetableModel;

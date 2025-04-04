@@ -1,8 +1,8 @@
 import Elysia, { t } from "elysia";
 
 import timetableAuthorityService from "@back/guards/timetableAuthorityService";
-import exit, { errorElysia } from "@back/utils/error";
 import EventModel from "@back/models/event";
+import exit, { errorElysia } from "@back/utils/error";
 
 const deleteTimetable = new Elysia()
   .use(timetableAuthorityService())
