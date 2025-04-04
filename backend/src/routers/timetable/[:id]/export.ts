@@ -1,17 +1,15 @@
 import Elysia, { t } from "elysia";
 import { createEvents } from "ics";
 
-import EventModel from "@back/models/event";
+import EventModel, { weekdayList } from "@back/models/event";
 import getTimetable from "@back/guards/getTimetable";
 import TimetableModel from "@back/models/timetable";
 import exit, { errorElysia } from "@back/utils/error";
 
-const weekdayMap = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];
-
 function findNextValidWeekday(date: Date, allowedWeekdays: string[]): Date {
   const d = new Date(date);
   for (let i = 0; i < 7; i++) {
-    const weekday = weekdayMap[d.getUTCDay()];
+    const weekday = weekdayList[d.getUTCDay()];
     if (allowedWeekdays.includes(weekday)) return d;
     d.setUTCDate(d.getUTCDate() + 1);
   }
@@ -74,15 +72,31 @@ const exportICS = new Elysia()
 
         if (e.repeat?.frequency) {
           const freq = e.repeat.frequency.toUpperCase();
-          const byDay = e.repeat.byWeekDay?.join(",");
-          const until = e.repeat.until
-            ? e.repeat.until.toISOString().replace(/[-:]|\.\d{3}/g, "")
-            : undefined;
-
-          icsEvent.recurrenceRule = `FREQ=${freq}` +
-            (byDay ? `;BYDAY=${byDay}` : "") +
-            (until ? `;UNTIL=${until}` : "");
-        }
+          const parts: string[] = [`FREQ=${freq}`];
+        
+          if (e.repeat.interval && e.repeat.interval > 1) {
+            parts.push(`INTERVAL=${e.repeat.interval}`);
+          }
+        
+          if (e.repeat.byWeekDay?.length) {
+            parts.push(`BYDAY=${e.repeat.byWeekDay.join(",")}`);
+          }
+        
+          if (e.repeat.byMonthDay) {
+            parts.push(`BYMONTHDAY=${e.repeat.byMonthDay}`);
+          }
+        
+          if (e.repeat.bySetPosition) {
+            parts.push(`BYSETPOS=${e.repeat.bySetPosition}`);
+          }
+        
+          if (e.repeat.until) {
+            const until = e.repeat.until.toISOString().replace(/[-:]|\.\d{3}/g, "");
+            parts.push(`UNTIL=${until}`);
+          }
+        
+          icsEvent.recurrenceRule = parts.join(";");
+        }        
 
         return icsEvent;
       });

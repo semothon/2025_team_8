@@ -1,7 +1,8 @@
 import Elysia, { t } from "elysia";
 
-import exit, { errorElysia } from "@back/utils/error";
 import eventAuthorityService from "@back/guards/eventAuthorityService";
+import { eventElysiaSchema } from "@back/models/event";
+import exit, { errorElysia } from "@back/utils/error";
 
 const updateEvent = new Elysia()
   .use(eventAuthorityService)
@@ -13,7 +14,16 @@ const updateEvent = new Elysia()
         ...(body.startTime && { startTime: new Date(body.startTime) }),
         ...(body.endTime && { endTime: new Date(body.endTime) }),
         ...(body.isAllDay !== undefined && { isAllDay: body.isAllDay }),
-        ...(body.repeat && { repeat: body.repeat }),
+        ...(body.repeat && {
+          repeat: {
+            frequency: body.repeat.frequency ?? null,
+            interval: body.repeat.interval ?? 1,
+            byWeekDay: body.repeat.byWeekDay,
+            bySetPosition: body.repeat.bySetPosition,
+            byMonthDay: body.repeat.byMonthDay,
+            until: body.repeat.until ? new Date(body.repeat.until) : undefined,
+          }
+        }),
       };
 
       const updated = await eventModel.db.updateOne(
@@ -24,6 +34,7 @@ const updateEvent = new Elysia()
       if (!updated || updated.matchedCount < 1) {
         return exit(error, "UPDATE_FAILED");
       }
+
       return {
         success: true,
         message: "이벤트 수정 성공",
@@ -33,41 +44,7 @@ const updateEvent = new Elysia()
       params: t.Object({
         id: t.String({ description: "이벤트 ID" }),
       }),
-      body: t.Object({
-        title: t.Optional(t.String({ example: "스터디 미팅" })),
-        startTime: t.Optional(t.String({
-          format: "date-time",
-          example: "2025-04-10T13:00:00Z"
-        })),
-        endTime: t.Optional(t.String({
-          format: "date-time",
-          example: "2025-04-10T14:30:00Z"
-        })),
-        isAllDay: t.Optional(t.Boolean({ example: false })),
-        repeat: t.Optional(
-          t.Object({
-            frequency: t.Optional(
-              t.Union([
-                t.Literal("daily"),
-                t.Literal("weekly"),
-                t.Literal("monthly"),
-                t.Null()
-              ], {
-                example: "weekly"
-              })
-            ),
-            byWeekDay: t.Optional(t.Array(t.Enum({
-              MO: "MO", TU: "TU", WE: "WE", TH: "TH", FR: "FR", SA: "SA", SU: "SU"
-            }), {
-              example: ["MO", "WE"]
-            })),
-            until: t.Optional(t.String({
-              format: "date-time",
-              example: "2025-06-30T23:59:59Z"
-            }))
-          })
-        )
-      }),
+      body: eventElysiaSchema,
       response: {
         200: t.Object({
           success: t.Boolean({

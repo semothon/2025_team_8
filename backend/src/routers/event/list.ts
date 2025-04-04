@@ -1,27 +1,72 @@
 import Elysia, { t } from "elysia";
 
 import getUser from "@back/guards/getUser";
-import EventModel from "@back/models/event";
+import EventModel, { weekdayList } from "@back/models/event";
 import TimetableModel from "@back/models/timetable";
 import JoinedActivityModel from "@back/models/joined_activity";
 
-const WEEKDAY_MAP = ["SU", "MO", "TU", "WE", "TH", "FR", "SA"];
-const getWeekdayCode = (date: Date): string => WEEKDAY_MAP[date.getUTCDay()];
-
 function generateRepeatInstances(event: any, from: Date, to: Date) {
   const instances = [];
-  const { frequency, byWeekDay, until } = event.repeat;
+  const {
+    frequency,
+    interval = 1,
+    byWeekDay,
+    bySetPosition,
+    byMonthDay,
+    until,
+  } = event.repeat;
+
   const repeatUntil = until ? new Date(until) : to;
   const start = new Date(event.startTime);
   const end = new Date(event.endTime);
   const duration = end.getTime() - start.getTime();
 
   let current = new Date(start);
-  while (current <= repeatUntil && current <= to) {
-    const weekday = getWeekdayCode(current);
 
-    if (!byWeekDay || byWeekDay.includes(weekday)) {
-      const instanceStart = new Date(current);
+  while (current <= repeatUntil && current <= to) {
+    let instanceStart: Date | null = null;
+
+    switch (frequency) {
+      case "daily": {
+        instanceStart = new Date(current);
+        current.setUTCDate(current.getUTCDate() + interval);
+        break;
+      }
+
+      case "weekly": {
+        const weekday = weekdayList[current.getUTCDay()];
+        if (!byWeekDay || byWeekDay.includes(weekday)) {
+          instanceStart = new Date(current);
+        }
+        current.setUTCDate(current.getUTCDate() + 1);
+        break;
+      }
+
+      case "monthly": {
+        const year = current.getUTCFullYear();
+        const month = current.getUTCMonth();
+
+        if (byMonthDay) {
+          instanceStart = new Date(Date.UTC(year, month, byMonthDay, start.getUTCHours(), start.getUTCMinutes()));
+        } else if (byWeekDay && bySetPosition) {
+          const weekday = byWeekDay[0];
+          const weekdayIndex = weekdayList.indexOf(weekday);
+
+          const firstDay = new Date(Date.UTC(year, month, 1));
+          const firstDayIndex = firstDay.getUTCDay();
+
+          const offset = (7 + weekdayIndex - firstDayIndex) % 7;
+          const day = 1 + offset + (bySetPosition - 1) * 7;
+
+          instanceStart = new Date(Date.UTC(year, month, day, start.getUTCHours(), start.getUTCMinutes()));
+        }
+
+        current.setUTCMonth(current.getUTCMonth() + 1);
+        break;
+      }
+    }
+
+    if (instanceStart) {
       const instanceEnd = new Date(instanceStart.getTime() + duration);
       if (instanceEnd >= from && instanceStart <= to) {
         instances.push({
@@ -33,18 +78,6 @@ function generateRepeatInstances(event: any, from: Date, to: Date) {
           isAllDay: event.isAllDay ?? false,
         });
       }
-    }
-
-    switch (frequency) {
-      case "daily":
-        current.setUTCDate(current.getUTCDate() + 1);
-        break;
-      case "weekly":
-        current.setUTCDate(current.getUTCDate() + 1);
-        break;
-      case "monthly":
-        current.setUTCMonth(current.getUTCMonth() + 1);
-        break;
     }
   }
 
