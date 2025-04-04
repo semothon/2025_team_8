@@ -1,11 +1,12 @@
 import { Elysia } from "elysia";
 
 import TimetableModel from "@back/models/timetable";
-import getUser from "./getUser";
-import exit, { errorElysia } from "@back/utils/error";
-import getEvent from "./getEvent";
 import ActivityModel from "@back/models/activity";
 import JoinedActivityModel, { permissionList } from "@back/models/joined_activity";
+import exit, { errorElysia } from "@back/utils/error";
+
+import getUser from "./getUser";
+import getEvent from "./getEvent";
 
 const eventAuthorityService = () =>
   new Elysia()

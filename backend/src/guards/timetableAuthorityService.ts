@@ -1,11 +1,12 @@
 import { Elysia } from "elysia";
 
 import TimetableModel from "@back/models/timetable";
-import getUser from "./getUser";
-import exit, { errorElysia } from "@back/utils/error";
-import getTimetable from "./getTimetable";
 import JoinedActivityModel, { permissionList } from "@back/models/joined_activity";
 import ActivityModel from "@back/models/activity";
+import exit, { errorElysia } from "@back/utils/error";
+
+import getUser from "./getUser";
+import getTimetable from "./getTimetable";
 
 const timetableAuthorityService = () =>
   new Elysia()
