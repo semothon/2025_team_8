@@ -3,6 +3,7 @@ import "./globals.css";
 import React from "react";
 
 import Providers from "@front/providers";
+import Header from "@front/components/layout/Header";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,10 +16,11 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <html lang="ko">
+    <html lang="ko" className="h-full">
       <body className="antialiased">
         <Providers>
-          {children}
+          <Header></Header>
+        <main className="container mx-auto">{children}</main>
         </Providers>
       </body>
     </html>
