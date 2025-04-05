@@ -18,7 +18,7 @@ export type ActivityCategoryType = typeof ActivityCategory[number];
 export const QuestionType = ["short", "long"] as const;
 export type QuestionTypeType = typeof QuestionType[number];
 
-interface Award {
+export interface Award {
   type: string;
   name: string;
   date?: string;
@@ -37,7 +37,7 @@ interface Period {
   end: string;
 }
 
-interface DActivity {
+export interface DActivity {
   name: string;
   headline: string;
   edit_permission: PermissionType;
