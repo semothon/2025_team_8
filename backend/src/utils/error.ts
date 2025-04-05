@@ -19,6 +19,19 @@ export const ERROR_MESSAGE = {
   UPDATE_FAILED: [500, "수정에 실패했습니다."],
 
   NOT_FOUNDED_KEY: [404, "찾을 수 없는 식당입니다."],
+
+  REQUIRED_ANSWERS_MISSING: [400, "필수 답변이 누락되었습니다."],
+  ANSWER_TOO_LONG: [400, "답변이 너무 깁니다."],
+
+  FETCH_APPLICATIONS_FAILED: [500, "지원서 목록 조회에 실패했습니다."],
+  NOT_RECRUITING_PERIOD: [400, "현재 모집 기간이 아닙니다."],
+  INTERVIEW_NOT_STARTED: [400, "아직 면접 전형이 시작되지 않았습니다."],
+
+  NO_APPLICATION_ID: [400, "지원서 ID가 없습니다."],
+  NO_APPLICATION: [404, "존재하지 않는 지원서입니다."],
+
+  ALREADY_APPLIED: [400, "이미 지원한 동아리입니다."],
+  CREATE_FAILED: [500, "지원서 생성에 실패했습니다."],
 } as const;
 
 export type ERROR_MESSAGE_TYPE = typeof ERROR_MESSAGE;

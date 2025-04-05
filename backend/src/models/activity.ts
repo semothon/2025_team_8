@@ -14,10 +14,26 @@ export const ActivityCategory = [
 ] as const;
 export type ActivityCategoryType = typeof ActivityCategory[number];
 
+export const QuestionType = ["short", "long"] as const;
+export type QuestionTypeType = typeof QuestionType[number];
+
 interface Award {
   type: string;
   name: string;
   date?: string;
+}
+
+interface Question {
+  id: string;
+  title: string;
+  type: QuestionTypeType;
+  required: boolean;
+  maxLength?: number;
+}
+
+interface Period {
+  start: string;
+  end: string;
 }
 
 interface DActivity {
@@ -37,12 +53,19 @@ interface DActivity {
   awards?: Award[];
   images_url?: string[];
 
+  questions?: Question[];
   is_hidden?: boolean;
+
+  is_always_recruiting?: boolean;
+  document_screening_period?: Period;
+  document_result_date?: string;
+  interview_period?: Period;
+  interview_result_date?: string;
+  final_result_date?: string;
 }
 export type IActivity = IDocument<DActivity>;
 
 export const activityElysiaSchema = t.Object({
-
   name: t.String({
     description: "활동(동아리) 이름",
     examples: ["LUNA"],
@@ -119,44 +142,132 @@ export const activityElysiaSchema = t.Object({
       "https://example.com/image.png",
     ],
   })), t.Null()])),
+  questions: t.Optional(t.Array(
+    t.Object({
+      id: t.String({
+        description: "질문 ID",
+        examples: ["question1"],
+      }),
+      title: t.String({
+        description: "질문 제목",
+        examples: ["이름"],
+      }),
+      type: t.String({
+        description: "답변 유형",
+        examples: QuestionType,
+      }),
+      required: t.Boolean({
+        description: "필수 답변 여부",
+        examples: [true],
+      }),
+      maxLength: t.Optional(t.Number({
+        description: "최대 글자 수",
+        examples: [100],
+      })),
+    })
+  )),
   is_hidden: t.Optional(t.Union([t.Boolean({
     description: "활동(동아리) 숨김 여부",
     examples: [false],
   }), t.Null()])),
+
+  // 모집 일정 관련 필드
+  is_always_recruiting: t.Optional(t.Union([t.Boolean({
+    description: "상시 모집 여부",
+    examples: [false],
+  }), t.Null()])),
+  document_screening_period: t.Optional(t.Union([t.Object({
+    start: t.String({
+      description: "서류 전형 시작일",
+      examples: ["2024-03-07 21:00:00"],
+    }),
+    end: t.String({
+      description: "서류 전형 종료일",
+      examples: ["2024-03-07 21:00:00"],
+    }),
+  }), t.Null()])),
+  document_result_date: t.Optional(t.Union([t.String({
+    description: "서류 합격 발표일",
+    examples: ["2024-03-07 21:00:00"],
+  }), t.Null()])),
+  interview_period: t.Optional(t.Union([t.Object({
+    start: t.String({
+      description: "면접 전형 시작일",
+      examples: ["2024-03-07 21:00:00"],
+    }),
+    end: t.String({
+      description: "면접 전형 종료일",
+      examples: ["2024-03-07 21:00:00"],
+    }),
+  }), t.Null()])),
+  interview_result_date: t.Optional(t.Union([t.String({
+    description: "면접 합격 발표일",
+    examples: ["2024-03-07 21:00:00"],
+  }), t.Null()])),
+  final_result_date: t.Optional(t.Union([t.String({
+    description: "최종 합격 발표일",
+    examples: ["2024-03-07 21:00:00"],
+  }), t.Null()])),
 });
 
-const activitySchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  headline: { type: String, required: true },
-  edit_permission: {
-    type: String,
-    enum: permissionList,
-    default: "member",
-  },
-
-  big_type: {
-    type: String,
-    enum: ActivityCategory,
-    required: true,
-  },
-  small_type: { type: String, required: true },
-
-  logo_url: { type: String, required: true },
-  key_color: { type: String, required: true },
-
-  video_url: { type: String },
-  description: { type: String },
-  activity_history: { type: String },
-  awards: [
-    {
-      type: { type: String, required: true },
-      name: { type: String, required: true },
-      date: { type: String },
+const activitySchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    headline: { type: String, required: true },
+    edit_permission: {
+      type: String,
+      enum: permissionList,
+      default: "member",
     },
-  ],
-  images_url: [{ type: String }],
-  is_hidden: { type: Boolean, default: false },
-});
+
+    big_type: {
+      type: String,
+      enum: ActivityCategory,
+      required: true,
+    },
+    small_type: { type: String, required: true },
+
+    logo_url: { type: String, required: true },
+    key_color: { type: String, required: true },
+
+    video_url: { type: String },
+    description: { type: String },
+    activity_history: { type: String },
+    awards: [
+      {
+        type: { type: String, required: true },
+        name: { type: String, required: true },
+        date: { type: String },
+      },
+    ],
+    images_url: [{ type: String }],
+    questions: [{
+      id: { type: String, required: true },
+      title: { type: String, required: true },
+      type: { type: String, enum: QuestionType, required: true },
+      required: { type: Boolean, required: true },
+      maxLength: { type: Number },
+    }],
+    is_hidden: { type: Boolean, default: false },
+
+    // 모집 일정 관련 필드
+    is_always_recruiting: { type: Boolean, default: false },
+    document_screening_period: {
+      start: { type: String },
+      end: { type: String },
+    },
+    document_result_date: { type: String },
+    interview_period: {
+      start: { type: String },
+      end: { type: String },
+    },
+    interview_result_date: { type: String },
+    final_result_date: { type: String },
+  },
+  {
+    timestamps: true,
+  }
+);
 const ActivityDB = mongoose.model<IActivity>("Activity", activitySchema);
 
 const createActivity = async (data: DActivity): Promise<IActivity> => {

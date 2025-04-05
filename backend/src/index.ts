@@ -50,7 +50,11 @@ if (Bun.env.NODE_ENV === "development") {
         {
           name: "Activity",
           description: "활동(동아리)에 관련된 API입니다.",
-        }
+        },
+        {
+          name: "Application",
+          description: "지원에 관련된 API입니다.",
+        },
       ]
     }
   }));

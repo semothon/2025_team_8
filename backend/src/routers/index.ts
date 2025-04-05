@@ -1,6 +1,7 @@
 import Elysia from "elysia";
 
 import ActivityRouter from "./activity";
+import ApplicationRouter from "./application";
 import AuthRouter from "./auth";
 
 const IndexRouter = new Elysia({
@@ -8,6 +9,7 @@ const IndexRouter = new Elysia({
   prefix: "",
 })
   .use(AuthRouter)
-  .use(ActivityRouter);
+  .use(ActivityRouter)
+  .use(ApplicationRouter);
 
 export default IndexRouter;
