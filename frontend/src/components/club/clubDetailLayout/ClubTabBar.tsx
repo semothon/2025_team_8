@@ -8,7 +8,7 @@ import { isLoggedInAtom, userAtom } from "@front/state/userAtom";
 const ClubTabBar = () => {
   const pathname = usePathname();
   const isLoggedIn = useAtomValue(isLoggedInAtom);
-  const user = useAtomValue(userAtom);
+  const user = useAtomValue(userAtom); //이거 백엔드 api랑 맞춰야 함,
 
   const match = pathname.match(/\/club\/(\d+)/); //club id 추출
   const currentClubId = match ? parseInt(match[1], 10) : null;
