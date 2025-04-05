@@ -1,15 +1,14 @@
 import Elysia, { t } from "elysia";
 
 import activityAuthorityService from "@back/guards/activityAuthorityService";
-import ActivityModel, { activityElysiaSchema } from "@back/models/activity";
+import { activityElysiaSchema } from "@back/models/activity";
 import exit, { errorElysia } from "@back/utils/error";
 
 const details = new Elysia()
   .use(activityAuthorityService())
-  .use(ActivityModel)
-  .patch(
+  .post(
     "details",
-    async ({ body, activity, activityModel, error }) => {
+    async ({ activity, body, activityModel, error }) => {
       const updated = await activityModel.db.updateOne(
         { _id: activity._id },
         {
@@ -18,20 +17,15 @@ const details = new Elysia()
           },
         }
       );
-
       if (!updated || updated.matchedCount < 1) {
         return exit(error, "UPDATE_FAILED");
       }
-
       return {
         success: true,
         message: "활동(동아리) 정보 수정 성공",
       };
     },
     {
-      params: t.Object({
-        id: t.String({ description: "동아리 ID" }),
-      }),
       body: t.Partial(
         t.Object({
           headline: activityElysiaSchema.properties.headline,
@@ -61,6 +55,7 @@ const details = new Elysia()
             examples: ["활동(동아리) 정보 수정 성공"],
           }),
         }),
+        ...errorElysia(["UPDATE_FAILED"]),
       },
       detail: {
         tags: ["Activity"],
