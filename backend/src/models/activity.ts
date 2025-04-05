@@ -69,7 +69,10 @@ interface DActivity {
 export type IActivity = IDocument<DActivity>;
 
 export const activityElysiaSchema = t.Object({
-
+  _id: t.Optional(t.String({
+    description: "활동(동아리) ID",
+    examples: ["123456789012345678901234"],
+  })),
   name: t.String({
     description: "활동(동아리) 이름",
     examples: ["LUNA"],
@@ -149,6 +152,17 @@ export const activityElysiaSchema = t.Object({
   is_hidden: t.Optional(t.Union([t.Boolean({
     description: "활동(동아리) 숨김 여부",
     examples: [false],
+  }), t.Null()])),
+
+  homepage_url: t.Optional(t.Union([t.String({
+    description: "활동(동아리) 홈페이지 URL",
+    examples: [
+      "https://example.com",
+    ],
+  }), t.Null()])),
+  instagram: t.Optional(t.Union([t.String({
+    description: "활동(동아리) 인스타그램 ID",
+    examples: ["jeamxn"],
   }), t.Null()])),
   questions: t.Optional(t.Array(
     t.Object({
