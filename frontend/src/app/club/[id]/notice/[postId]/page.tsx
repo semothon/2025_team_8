@@ -10,7 +10,7 @@ export default function PostPage() {
   const params = useParams();
   const id = params?.id as string;
 
-  const post = { //props 로 전달받게 바꿔야 함. -> fetch 로 가져오도록 수정해야함.
+  const post = { 
     id,
     user : "최재민",
     title: "뭐시라뭐시라 이것은 중요한 공지입니다.",

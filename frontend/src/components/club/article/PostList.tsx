@@ -1,8 +1,6 @@
 "use client";
 
-import { useAtom } from "jotai";
 import PostItem from "./PostItem";
-import { currentPageAtom } from "@front/state/PaginationAtom";
 
 interface Post {
   id: string;
@@ -17,8 +15,6 @@ interface PostListProps {
 }
 
 export default function PostList({ postList }: PostListProps) {
-  const [currentPage] = useAtom(currentPageAtom);
-
   return (
     <div className="rounded-lg overflow-hidden">
       <div className="grid grid-cols-[2fr_1fr_1fr_1fr] p-2 border-b border-gray-300 text-sm items-center">
@@ -27,8 +23,8 @@ export default function PostList({ postList }: PostListProps) {
         <div className="text-center">작성일</div>
         <div className="text-right">조회</div>
       </div>
-      {postList.map((notice, index) => (
-        <PostItem key={index} {...notice} />
+      {postList.map((notice) => (
+        <PostItem key={notice.id} {...notice} />
       ))}
       <div className="border-b border-gray-300" />
     </div>
