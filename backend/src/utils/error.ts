@@ -50,6 +50,7 @@ export const ERROR_MESSAGE = {
 
   ALREADY_APPLIED: [400, "이미 지원한 활동(동아리)입니다."],
   CREATE_FAILED: [500, "지원서 생성에 실패했습니다."],
+  RECRUITMENT_ENDED: [403, "서류 전형 기간이 종료되어 지원서를 수정할 수 없습니다."],
 } as const;
 
 export type ERROR_MESSAGE_TYPE = typeof ERROR_MESSAGE;

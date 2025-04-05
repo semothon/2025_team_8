@@ -14,9 +14,9 @@ const ActivityIdRouter = new Elysia({
   prefix: ":activity_id",
 })
   .use(apply)
+  .use(applicationRouter)
   .use(getActivity)
   .use(info)
-  .use(applicationRouter)
   .use(ActivityUpdateRouter)
   .use(ActivityMemberRouter)
   .use(timetableRouter);

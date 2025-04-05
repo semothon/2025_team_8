@@ -1,5 +1,6 @@
 import Elysia, { t } from "elysia";
 
+import { IActivity } from "@back/models/activity";
 import ApplicationModel from "@back/models/application";
 import exit, { errorElysia } from "@back/utils/error";
 
@@ -23,7 +24,8 @@ const getApplication = new Elysia()
       if (!application_id) {
         return exit(error, "NO_APPLICATION_ID");
       }
-      const application = await applicationModel.db.findById(application_id);
+      const application = await applicationModel.db.findById(application_id)
+        .populate<{ activityId: IActivity }>("activityId");
       if (!application) {
         return exit(error, "NO_APPLICATION");
       }

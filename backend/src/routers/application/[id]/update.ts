@@ -10,6 +10,17 @@ const update = new Elysia()
   .patch(
     "",
     async ({ body, application, applicationModel, error }) => {
+      const now = new Date();
+
+      const activity = application.activityId;
+      if (!activity.document_screening_period) {
+        return exit(error, "NOT_RECRUITING_PERIOD");
+      }
+
+      if (now > new Date(activity.document_screening_period.end)) {
+        return exit(error, "RECRUITMENT_ENDED");
+      }
+
       const updateData = {
         ...body,
       };
@@ -72,12 +83,12 @@ const update = new Elysia()
             examples: ["지원서 수정되었습니다."],
           }),
         }),
-        ...errorElysia(["UPDATE_FAILED"]),
+        ...errorElysia(["UPDATE_FAILED", "RECRUITMENT_ENDED", "NO_APPLICATION", "NOT_RECRUITING_PERIOD"]),
       },
       detail: {
         tags: ["Application"],
         summary: "지원서 수정",
-        description: "지원서의 답변을 수정합니다.",
+        description: "지원서의 답변을 수정합니다. 지원 기간이 끝난 경우 수정할 수 없습니다.",
       },
     }
   );
