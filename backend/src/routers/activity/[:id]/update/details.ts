@@ -1,12 +1,10 @@
 import Elysia, { t } from "elysia";
 
 import activityAuthorityService from "@back/guards/activityAuthorityService";
-import getActivity from "@back/guards/getActivity";
 import ActivityModel, { activityElysiaSchema } from "@back/models/activity";
 import exit, { errorElysia } from "@back/utils/error";
 
-const details_update = new Elysia()
-  .use(getActivity)
+const details = new Elysia()
   .use(activityAuthorityService())
   .use(ActivityModel)
   .patch(
@@ -73,4 +71,4 @@ const details_update = new Elysia()
     }
   );
 
-export default details_update;
+export default details;

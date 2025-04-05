@@ -56,6 +56,9 @@ interface DActivity {
   questions?: Question[];
   is_hidden?: boolean;
 
+  homepage_url?: string;
+  instagram?: string;
+
   is_always_recruiting?: boolean;
   document_screening_period?: Period;
   document_result_date?: string;
@@ -66,6 +69,7 @@ interface DActivity {
 export type IActivity = IDocument<DActivity>;
 
 export const activityElysiaSchema = t.Object({
+
   name: t.String({
     description: "활동(동아리) 이름",
     examples: ["LUNA"],
@@ -170,44 +174,6 @@ export const activityElysiaSchema = t.Object({
     description: "활동(동아리) 숨김 여부",
     examples: [false],
   }), t.Null()])),
-
-  // 모집 일정 관련 필드
-  is_always_recruiting: t.Optional(t.Union([t.Boolean({
-    description: "상시 모집 여부",
-    examples: [false],
-  }), t.Null()])),
-  document_screening_period: t.Optional(t.Union([t.Object({
-    start: t.String({
-      description: "서류 전형 시작일",
-      examples: ["2024-03-07 21:00:00"],
-    }),
-    end: t.String({
-      description: "서류 전형 종료일",
-      examples: ["2024-03-07 21:00:00"],
-    }),
-  }), t.Null()])),
-  document_result_date: t.Optional(t.Union([t.String({
-    description: "서류 합격 발표일",
-    examples: ["2024-03-07 21:00:00"],
-  }), t.Null()])),
-  interview_period: t.Optional(t.Union([t.Object({
-    start: t.String({
-      description: "면접 전형 시작일",
-      examples: ["2024-03-07 21:00:00"],
-    }),
-    end: t.String({
-      description: "면접 전형 종료일",
-      examples: ["2024-03-07 21:00:00"],
-    }),
-  }), t.Null()])),
-  interview_result_date: t.Optional(t.Union([t.String({
-    description: "면접 합격 발표일",
-    examples: ["2024-03-07 21:00:00"],
-  }), t.Null()])),
-  final_result_date: t.Optional(t.Union([t.String({
-    description: "최종 합격 발표일",
-    examples: ["2024-03-07 21:00:00"],
-  }), t.Null()])),
 });
 
 const activitySchema = new mongoose.Schema(
@@ -230,44 +196,19 @@ const activitySchema = new mongoose.Schema(
     logo_url: { type: String, required: true },
     key_color: { type: String, required: true },
 
-    video_url: { type: String },
-    description: { type: String },
-    activity_history: { type: String },
-    awards: [
-      {
-        type: { type: String, required: true },
-        name: { type: String, required: true },
-        date: { type: String },
-      },
-    ],
-    images_url: [{ type: String }],
-    questions: [{
-      id: { type: String, required: true },
-      title: { type: String, required: true },
-      type: { type: String, enum: QuestionType, required: true },
-      required: { type: Boolean, required: true },
-      maxLength: { type: Number },
-    }],
-    is_hidden: { type: Boolean, default: false },
-
-    // 모집 일정 관련 필드
-    is_always_recruiting: { type: Boolean, default: false },
-    document_screening_period: {
-      start: { type: String },
-      end: { type: String },
+  video_url: { type: String },
+  description: { type: String },
+  activity_history: { type: String },
+  awards: [
+    {
+      type: { type: String, required: true },
+      name: { type: String, required: true },
+      date: { type: String },
     },
-    document_result_date: { type: String },
-    interview_period: {
-      start: { type: String },
-      end: { type: String },
-    },
-    interview_result_date: { type: String },
-    final_result_date: { type: String },
-  },
-  {
-    timestamps: true,
-  }
-);
+  ],
+  images_url: [{ type: String }],
+  is_hidden: { type: Boolean, default: false },
+});
 const ActivityDB = mongoose.model<IActivity>("Activity", activitySchema);
 
 const createActivity = async (data: DActivity): Promise<IActivity> => {
