@@ -1,3 +1,6 @@
+"use client"
+import { useRouter } from 'next/navigation';
+
 export interface ClubShortInfo {
   id: number;
   title: string;
@@ -6,10 +9,19 @@ export interface ClubShortInfo {
   shortInfo: string;
   imgUrl: string;
 }
-export default function ClubCard({ club }: { club: ClubShortInfo}) {
+
+export default function ClubCard({ club }: { club: ClubShortInfo }) {
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.push(`/club/${club.id}/introduction`);
+  };
+
   return (
-    <div className="flex justify-between items-center p-4 rounded-lg shadow"
-    style={{ backgroundColor: '#951E1E0D' }}
+    <div
+      className="flex justify-between items-center p-4 rounded-lg shadow cursor-pointer hover:bg-red-50 transition"
+      style={{ backgroundColor: '#951E1E0D' }}
+      onClick={handleClick}
     >
       {/* 텍스트*/}
       <div>
@@ -18,7 +30,7 @@ export default function ClubCard({ club }: { club: ClubShortInfo}) {
         <p className="text-gray-500">{club.category}</p>
       </div>
 
-      {/*오른쪽에 들어갈 이미지 */} 
+      {/* 오른쪽에 들어갈 이미지 */}
       <div className="w-12 h-12 bg-black rounded-full" />
     </div>
   );

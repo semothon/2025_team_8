@@ -1,7 +1,13 @@
-export default function ClubPage() {
+'use client';
+
+import GalleryScroll from "@front/components/club/introduction/GalleryScroll";
+import RecruitComponent from "@front/components/club/introduction/RecruitPage";
+
+export default function RecruitPage() {
   return (
     <div>
-      <h1>클럽 페이지</h1>
+    <RecruitComponent></RecruitComponent>
+    <GalleryScroll></GalleryScroll>
     </div>
   );
 }

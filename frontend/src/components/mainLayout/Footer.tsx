@@ -6,28 +6,20 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
         {/* 사이트 소개 */}
         <div>
-          <h2 className="text-xl font-bold mb-2">MyClub</h2>
+          <h2 className="text-xl font-bold mb-2">Khulub</h2>
           <p className="text-sm">
             경희 대학교 동아리 탐색과 참여를 위한 플랫폼입니다! 다양한 동아리에 대한 정보를 관리해요!
           </p>
         </div>
 
-        {/* 주요 링크 */}
-        <div>
-          <h3 className="font-semibold mb-2">사이트 정보</h3>
-          <ul className="space-y-1 text-sm">
-            <li><Link href="/terms">이용약관</Link></li>
-            <li><Link href="/privacy">개인정보처리방침</Link></li>
-          </ul>
-        </div>
-
         {/* 연락처 */}
         <div>
-          <h3 className="font-semibold mb-2">연락처</h3>
+          <h3 className="font-semibold mb-2">connect</h3>
           <ul className="text-sm space-y-1">
-            <li>이메일: support@myclub.com</li>
-            <li>전화번호: 02-123-4567</li>
-            <li>주소: 서울시 어딘가 구 어딘가로 123</li>
+          <li>디자인: 최호연 , 최서연</li>
+          <li>개발: 최재민, 최은석, 황효은, 이윤건, 안시현</li>
+            <li>이메일: whowhowhowhowho</li>
+            <li>주소: 경희대학교</li>
           </ul>
         </div>
       </div>

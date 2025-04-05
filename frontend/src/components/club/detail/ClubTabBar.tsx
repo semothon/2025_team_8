@@ -1,31 +1,46 @@
-"use client"; 
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAtomValue } from "jotai";
+import { isLoggedInAtom, userAtom } from "@front/state/userAtom";
 
 const ClubTabBar = () => {
   const pathname = usePathname();
+  const isLoggedIn = useAtomValue(isLoggedInAtom);
+  const user = useAtomValue(userAtom);
 
-  // 기본 탭
+  const match = pathname.match(/\/club\/(\d+)/); //club id 추출
+  const currentClubId = match ? parseInt(match[1], 10) : null;
+
   const baseTabs = [
-    { name: "활동 소개", path: "/club/1/introduction" },
-    { name: "캘린더", path: "/club/1/calendar" },
-    { name: "공지 게시판", path: "/club/1/notice" },
-    { name: "자유 게시판", path: "/club/1/free" },
-    { name: "부원 관리하기", path: "/club/1/member" },
-    { name: "관리하기", path: "/club/1/admin" }
+    { name: "활동 소개", path: `/club/${currentClubId}/introduction` },
+    { name: "캘린더", path: `/club/${currentClubId}/calendar` },
+    { name: "공지 게시판", path: `/club/${currentClubId}/notice` },
   ];
 
-  const loginTab = [
-    { name: "자유 게시판", path: "/club/1/free" },
-    { name: "부원 관리하기", path: "/club/1/member" },
+  const loginTabs = [
+    { name: "자유 게시판", path: `/club/${currentClubId}/free` },
+    { name: "부원 관리하기", path: `/club/${currentClubId}/member` },
   ];
 
-  const adminTab = { name: "관리하기", path: "/club/1/admin" }
-  
+  const adminTab = { name: "관리하기", path: `/club/${currentClubId}/admin` };
+
+  const tabsToRender = [...baseTabs];
+
+  if (isLoggedIn && user && currentClubId !== null) {
+    if (user.clubIds.includes(currentClubId)) {
+      tabsToRender.push(...loginTabs);
+    }
+
+    if (user.ManageIds.includes(currentClubId)) {
+      tabsToRender.push(adminTab);
+    }
+  }
+
   return (
-    <nav className=" px-6 flex gap-6 border-b">
-      {baseTabs.map((tab) => (
+    <nav className="px-6 flex gap-6 border-b">
+      {tabsToRender.map((tab) => (
         <Link
           key={tab.path}
           href={tab.path}
