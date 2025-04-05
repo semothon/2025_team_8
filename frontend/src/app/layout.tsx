@@ -3,8 +3,8 @@ import "./globals.css";
 import React from "react";
 
 import Providers from "@front/providers";
-import Header from "@front/components/mainLayout/Header";
-import Footer from "@front/components/mainLayout/Footer";
+import Header from "@front/components/RootLayout/Header";
+import Footer from "@front/components/RootLayout/Footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",

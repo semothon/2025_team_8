@@ -6,6 +6,7 @@ import ClubList from "./ClubList";
 import SearchBar from "./SearchBar";
 import { ClubShortInfo } from "./ClubCard";
 
+//클럽 목록 조회 
 //백엔드 api 맞춰야 함, -> detail, category filter id는 추후에 number 형식으로 통일 하는게 좋을 듯
 
 

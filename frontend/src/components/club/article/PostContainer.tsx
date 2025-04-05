@@ -18,7 +18,7 @@ export default function PostContainer() {
   const [currentPage, setCurrentPage] = useState(1);
   const [postList, setPostList] = useState<Post[]>([]);
   const [loading, setLoading] = useState(false);
-  const ITEMS_PER_PAGE = 10;
+  const ITEMS_PER_PAGE = 20;
 
   //여기 use effect 부분 실제로 api 나오면 수정 해야 함. 
   const generateMockPosts = (): Post[] => {

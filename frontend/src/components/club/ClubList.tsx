@@ -1,7 +1,6 @@
 "use client";
 
 import ClubCard,{ ClubShortInfo}  from "./ClubCard";
-//게시물 목록 부분
 
 interface ClubListProps {
   clubs: ClubShortInfo[];

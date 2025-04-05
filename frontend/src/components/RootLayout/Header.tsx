@@ -17,7 +17,7 @@ const Header = () => {
 
       <nav className="flex gap-4 text-sm sm:text-base">
         <Link href="/club" className="text-black">활동 목록</Link>
-        <Link href="/login" className="text-gray-500">로그인</Link>
+        <Link href="/auth/login" className="text-gray-500">로그인</Link>
       </nav>
     </header>
   );
