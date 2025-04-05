@@ -2,10 +2,10 @@ import Elysia from "elysia";
 
 import getActivity from "@back/guards/getActivity";
 
-import basic_update from "./basic_update";
-import details_update from "./details_update";
 import info from "./info";
 import listTimetable from "./list_timetable";
+import ActivityMemberRouter from "./member";
+import ActivityUpdateRouter from "./update";
 
 const ActivityIdRouter = new Elysia({
   name: "Activity Router",
@@ -13,8 +13,8 @@ const ActivityIdRouter = new Elysia({
 })
   .use(getActivity)
   .use(info)
-  .use(listTimetable)
-  .use(basic_update)
-  .use(details_update);
+  .use(ActivityUpdateRouter)
+  .use(ActivityMemberRouter)
+  .use(listTimetable);
 
 export default ActivityIdRouter;
