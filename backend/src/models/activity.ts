@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import Elysia, { t } from "elysia";
 import mongoose from "mongoose";
 
@@ -195,34 +196,34 @@ export const activityElysiaSchema = t.Object({
   document_screening_period: t.Optional(t.Union([t.Object({
     start: t.String({
       description: "서류 전형 시작일",
-      examples: ["2024-04-07 21:00:00"],
+      examples: ["2025-04-07 21:00:00"],
     }),
     end: t.String({
       description: "서류 전형 종료일",
-      examples: ["2024-05-07 21:00:00"],
+      examples: ["2025-05-07 21:00:00"],
     }),
   }), t.Null()])),
   document_result_date: t.Optional(t.Union([t.String({
     description: "서류 합격 발표일",
-    examples: ["2024-05-07 21:00:00"],
+    examples: ["2025-05-07 21:00:00"],
   }), t.Null()])),
   interview_period: t.Optional(t.Union([t.Object({
     start: t.String({
       description: "면접 전형 시작일",
-      examples: ["2024-05-07 21:00:00"],
+      examples: ["2025-05-07 21:00:00"],
     }),
     end: t.String({
       description: "면접 전형 종료일",
-      examples: ["2024-06-07 21:00:00"],
+      examples: ["2025-06-07 21:00:00"],
     }),
   }), t.Null()])),
   interview_result_date: t.Optional(t.Union([t.String({
     description: "면접 합격 발표일",
-    examples: ["2024-06-07 21:00:00"],
+    examples: ["2025-06-07 21:00:00"],
   }), t.Null()])),
   final_result_date: t.Optional(t.Union([t.String({
     description: "최종 합격 발표일",
-    examples: ["2024-07-07 21:00:00"],
+    examples: ["2025-07-07 21:00:00"],
   }), t.Null()])),
 });
 
@@ -268,16 +269,16 @@ const activitySchema = new mongoose.Schema({
     
   is_always_recruiting: { type: Boolean, default: false },
   document_screening_period: {
-    start: { type: String },
-    end: { type: String },
+    start: { type: String, default: dayjs().format("YYYY-MM-DD HH:mm:ss") },
+    end: { type: String, default: dayjs().format("YYYY-MM-DD HH:mm:ss") },
   },
-  document_result_date: { type: String },
+  document_result_date: { type: String, default: dayjs().format("YYYY-MM-DD HH:mm:ss") },
   interview_period: {
-    start: { type: String },
-    end: { type: String },
+    start: { type: String, default: dayjs().format("YYYY-MM-DD HH:mm:ss") },
+    end: { type: String, default: dayjs().format("YYYY-MM-DD HH:mm:ss") },
   },
-  interview_result_date: { type: String },
-  final_result_date: { type: String },
+  interview_result_date: { type: String, default: dayjs().format("YYYY-MM-DD HH:mm:ss") },
+  final_result_date: { type: String, default: dayjs().format("YYYY-MM-DD HH:mm:ss") },
 },);
 const ActivityDB = mongoose.model<IActivity>("Activity", activitySchema);
 

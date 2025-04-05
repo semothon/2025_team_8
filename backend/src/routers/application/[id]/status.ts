@@ -63,7 +63,7 @@ const status = new Elysia()
         }),
         interviewTime: t.Optional(t.String({
           description: "면접 시간 (YYYY-MM-DD HH:mm:ss)",
-          examples: ["2024-03-20 14:00:00"],
+          examples: ["2025-03-20 14:00:00"],
         })),
         interviewLocation: t.Optional(t.String({
           description: "면접 장소",

@@ -88,11 +88,11 @@ const list = new Elysia()
             }),
             createdAt: t.String({
               description: "생성 일시",
-              examples: ["2024-03-14 12:00:00"],
+              examples: ["2025-03-14 12:00:00"],
             }),
             updatedAt: t.String({
               description: "수정 일시",
-              examples: ["2024-03-14 12:00:00"],
+              examples: ["2025-03-14 12:00:00"],
             })
           }, {
             description: "지원서 정보"

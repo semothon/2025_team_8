@@ -97,7 +97,7 @@ const list = new Elysia()
               }),
               interviewTime: t.Optional(t.String({
                 description: "면접 시간",
-                examples: ["2024-03-20 14:00:00"],
+                examples: ["2025-03-20 14:00:00"],
               })),
               interviewLocation: t.Optional(t.String({
                 description: "면접 장소",
@@ -109,11 +109,11 @@ const list = new Elysia()
               })),
               createdAt: t.String({
                 description: "생성 일시",
-                examples: ["2024-03-14 12:00:00"],
+                examples: ["2025-03-14 12:00:00"],
               }),
               updatedAt: t.String({
                 description: "수정 일시",
-                examples: ["2024-03-14 12:00:00"],
+                examples: ["2025-03-14 12:00:00"],
               }),
             })
           ),
