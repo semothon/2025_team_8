@@ -113,18 +113,18 @@ const Club = ({ params }: ClubProps) => {
           </React.Fragment>
         ))
       }
-        {
-          boardInfo.map((board) => (
-            <React.Fragment key={board._id}>
-              <div className="flex flex-row items-center justify-between px-4">
-                <p className="text-2xl font-bold text-dark mt-4">{board.name}</p>
-                <p className="text-dark/40 font-bold underline cursor-pointer">전체보기</p>
-              </div>
-            </React.Fragment>
-          ))
-        }
+      {
+        boardInfo.map((board) => (
+          <React.Fragment key={board._id}>
+            <div className="flex flex-row items-center justify-between px-4">
+              <p className="text-2xl font-bold text-dark mt-4">{board.name}</p>
+              <p className="text-dark/40 font-bold underline cursor-pointer">전체보기</p>
+            </div>
+          </React.Fragment>
+        ))
+      }
         
-        <div className="px-4">
+      <div className="px-4">
         <CustomCalendar timetables={[{
           timetable_id: params.id,
           name: info.name,
