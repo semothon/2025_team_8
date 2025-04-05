@@ -48,7 +48,7 @@ export const ERROR_MESSAGE = {
   NO_APPLICATION_ID: [400, "지원서 ID가 없습니다."],
   NO_APPLICATION: [404, "존재하지 않는 지원서입니다."],
 
-  ALREADY_APPLIED: [400, "이미 지원한 동아리입니다."],
+  ALREADY_APPLIED: [400, "이미 지원한 활동(동아리)입니다."],
   CREATE_FAILED: [500, "지원서 생성에 실패했습니다."],
 } as const;
 

@@ -7,7 +7,7 @@ const getApplication = new Elysia()
   .use(ApplicationModel)
   .guard({
     params: t.Object({
-      id: t.String({
+      application_id: t.String({
         description: "지원서 ID",
       }),
     }),
@@ -19,11 +19,11 @@ const getApplication = new Elysia()
     application: any;
   }> => {
     try {
-      const { id } = params;
-      if (!id) {
+      const { application_id } = params;
+      if (!application_id) {
         return exit(error, "NO_APPLICATION_ID");
       }
-      const application = await applicationModel.db.findById(id);
+      const application = await applicationModel.db.findById(application_id);
       if (!application) {
         return exit(error, "NO_APPLICATION");
       }

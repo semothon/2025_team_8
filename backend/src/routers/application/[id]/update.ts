@@ -29,9 +29,6 @@ const update = new Elysia()
       };
     },
     {
-      params: t.Object({
-        id: t.String({ description: "지원서 ID" }),
-      }),
       body: t.Object({
         answers: t.Array(
           t.Object({

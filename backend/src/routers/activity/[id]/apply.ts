@@ -10,7 +10,7 @@ const apply = new Elysia()
   .use(getActivity)
   .use(ApplicationModel)
   .post(
-    "/apply",
+    "apply",
     async ({ body, user, activity, applicationModel, error }) => {
       try {
         const existingApplication = await applicationModel.db.findOne({
@@ -41,7 +41,7 @@ const apply = new Elysia()
     },
     {
       params: t.Object({
-        id: t.String({ description: "동아리 ID" }),
+        id: t.String({ description: "활동(동아리) ID" }),
       }),
       body: t.Object({
         answers: t.Array(
@@ -90,8 +90,8 @@ const apply = new Elysia()
       },
       detail: {
         tags: ["Application"],
-        summary: "동아리 지원",
-        description: "동아리에 지원합니다. 이미 지원한 경우에는 지원할 수 없습니다.",
+        summary: "활동(동아리) 지원",
+        description: "활동(동아리)에 지원합니다. 이미 지원한 경우에는 지원할 수 없습니다.",
       },
     }
   );

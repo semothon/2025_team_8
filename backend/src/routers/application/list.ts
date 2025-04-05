@@ -33,6 +33,8 @@ const list = new Elysia()
       return applications.map(application => ({
         ...application,
         _id: application._id.toString(),
+        userId: application.userId.toString(),
+        activityId: application.activityId.toString(),
         createdAt: dayjs(application.createdAt).format("YYYY-MM-DD HH:mm:ss"),
         updatedAt: dayjs(application.updatedAt).format("YYYY-MM-DD HH:mm:ss")
       }));

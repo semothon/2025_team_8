@@ -3,7 +3,7 @@ import Elysia, { t } from "elysia";
 import getApplication from "@back/guards/getApplication";
 import getUser from "@back/guards/getUser";
 import { ApplicationStatus, ApplicationStage } from "@back/models/application";
-import JoinedActivityModel, { permissionList } from "@back/models/joined_activity";
+import JoinedActivityModel from "@back/models/joined_activity";
 import exit, { errorElysia } from "@back/utils/error";
 
 const status = new Elysia()
@@ -11,23 +11,17 @@ const status = new Elysia()
   .use(JoinedActivityModel)
   .use(getApplication)
   .patch(
-    "/status",
+    "status",
     async ({ body, user, joinedActivityModel, application, applicationModel, error }) => {
       const { status, interviewTime, interviewLocation, interviewNotes } = body;
 
       const user_id = user._id;
       const activity_id = application.activityId;
-      const local_level = application.activity.edit_permission;
-      if (!local_level) return exit(error, "UNAUTHORIZED");
-      const premissions = permissionList.slice(
-        0,
-        permissionList.indexOf(local_level) + 1
-      );
       const joined_activity = await joinedActivityModel.db.find({
         activity_id,
         user_id,
         permission: {
-          $in: premissions,
+          $in: ["president", "vice_president"],
         }
       });
       if (!joined_activity || joined_activity.length < 1) return exit(error, "UNAUTHORIZED");
@@ -99,7 +93,7 @@ const status = new Elysia()
       detail: {
         tags: ["Application"],
         summary: "지원서 상태 변경",
-        description: "지원서의 상태를 변경합니다. 서류 합격 시 면접 정보를 함께 입력할 수 있습니다. 동아리 회장/부회장만 접근 가능합니다.",
+        description: "지원서의 상태를 변경합니다. 서류 합격 시 면접 정보를 함께 입력할 수 있습니다. 활동(동아리) 회장/부회장만 접근 가능합니다.",
       },
     }
   );

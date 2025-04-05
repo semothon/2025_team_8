@@ -1,17 +1,15 @@
 import Elysia, { t } from "elysia";
 
-import getActivity from "@back/guards/getActivity";
 import getUser from "@back/guards/getUser";
 import JoinedActivityModel from "@back/models/joined_activity";
 import TimetableModel, { MappedTimetable, timetableElysiaSchema } from "@back/models/timetable";
 
-const listTimetable = new Elysia()
+const list = new Elysia()
   .use(getUser)
-  .use(getActivity)
   .use(TimetableModel)
   .use(JoinedActivityModel)
   .get(
-    "list-timetable",
+    "",
     async ({ activity, joinedActivityModel, timetableModel, user }) => {
       const activityId = activity._id;
       const userId = user._id;
@@ -73,4 +71,4 @@ const listTimetable = new Elysia()
     },
   );
 
-export default listTimetable;
+export default list;

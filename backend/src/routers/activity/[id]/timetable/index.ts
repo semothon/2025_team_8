@@ -4,11 +4,11 @@ import getActivity from "@back/guards/getActivity";
 
 import list from "./list";
 
-const applicationRouter = new Elysia({
-  name: "Application Router",
-  prefix: "application",
+const timetableRouter = new Elysia({
+  name: "Timetable Router",
+  prefix: "timetable",
 })
   .use(getActivity)
   .use(list);
 
-export default applicationRouter; 
+export default timetableRouter; 

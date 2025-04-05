@@ -1,16 +1,13 @@
 import Elysia, { t } from "elysia";
 
 import activityAuthorityService from "@back/guards/activityAuthorityService";
-import getActivity from "@back/guards/getActivity";
 import { ApplicationStatus, ApplicationStage } from "@back/models/application";
-import exit, { errorElysia } from "@back/utils/error";
 
 const list = new Elysia()
-  .use(getActivity)
-  .use(activityAuthorityService())
+  .use(activityAuthorityService("vice_president"))
   .get(
-    "list",
-    async ({ activity, applicationModel, error }) => {
+    "",
+    async ({ activity, applicationModel }) => {
       const applications = await applicationModel.db
         .find({ activityId: activity._id })
         .populate("userId", "name email")
@@ -44,7 +41,7 @@ const list = new Elysia()
     },
     {
       params: t.Object({
-        id: t.String({ description: "동아리 ID" }),
+        id: t.String({ description: "활동(동아리) ID" }),
       }),
       response: {
         200: t.Object({
@@ -71,7 +68,7 @@ const list = new Elysia()
                 examples: ["hong@example.com"],
               }),
               activityId: t.String({
-                description: "동아리 ID",
+                description: "활동(동아리) ID",
                 examples: ["507f1f77bcf86cd799439013"],
               }),
               answers: t.Array(
@@ -124,8 +121,8 @@ const list = new Elysia()
       },
       detail: {
         tags: ["Activity"],
-        summary: "동아리 지원서 목록 조회",
-        description: "특정 동아리의 모든 지원서 목록을 조회합니다. 동아리 회장/부회장만 접근 가능합니다.",
+        summary: "활동(동아리) 지원서 목록 조회",
+        description: "특정 활동(동아리)의 모든 지원서 목록을 조회합니다. 활동(동아리) 회장/부회장만 접근 가능합니다.",
       },
     }
   );
