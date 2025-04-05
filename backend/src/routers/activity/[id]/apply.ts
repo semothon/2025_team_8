@@ -40,9 +40,6 @@ const apply = new Elysia()
       }
     },
     {
-      params: t.Object({
-        id: t.String({ description: "활동(동아리) ID" }),
-      }),
       body: t.Object({
         answers: t.Array(
           t.Object({
