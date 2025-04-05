@@ -53,12 +53,12 @@ interface DActivity {
   awards?: Award[];
   images_url?: string[];
 
-  questions?: Question[];
   is_hidden?: boolean;
-
+  
   homepage_url?: string;
   instagram?: string;
-
+  
+  questions?: Question[];
   is_always_recruiting?: boolean;
   document_screening_period?: Period;
   document_result_date?: string;
