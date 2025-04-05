@@ -1,6 +1,6 @@
 import Elysia from "elysia";
 
-import applicationIdRouter from "./[:id]";
+import applicationIdRouter from "./[id]";
 import list from "./list";
 
 const application = new Elysia({
