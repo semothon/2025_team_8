@@ -1,5 +1,6 @@
 import Elysia, { t } from "elysia";
 
+import getTimetable from "@back/guards/getTimetable";
 import getUser from "@back/guards/getUser";
 import timetableAuthorityService from "@back/guards/timetableAuthorityService";
 import TimetableModel from "@back/models/timetable";
@@ -8,6 +9,7 @@ const generateICSLink = new Elysia()
   .use(getUser)
   .use(TimetableModel)
   .use(timetableAuthorityService)
+  .use(getTimetable)
   .get(
     "/ics-link",
     async ({ user, timetable, timetableModel }) => {
@@ -19,7 +21,7 @@ const generateICSLink = new Elysia()
     },
     {
       params: t.Object({
-        id: t.String({ description: "캘린더 ID" }),
+        timetable_id: t.String({ description: "캘린더 ID" }),
       }),
       response: t.Object({
         link: t.String({ description: "ICS 구독 링크" }),

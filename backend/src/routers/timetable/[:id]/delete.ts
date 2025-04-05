@@ -1,11 +1,13 @@
 import Elysia, { t } from "elysia";
 
+import getTimetable from "@back/guards/getTimetable";
 import timetableAuthorityService from "@back/guards/timetableAuthorityService";
 import EventModel from "@back/models/event";
 import exit, { errorElysia } from "@back/utils/error";
 
 const deleteTimetable = new Elysia()
-  .use(timetableAuthorityService())
+  .use(timetableAuthorityService)
+  .use(getTimetable)
   .use(EventModel)
   .delete(
     "",
@@ -23,9 +25,6 @@ const deleteTimetable = new Elysia()
       
     },
     {
-      params: t.Object({
-        id: t.String({ description: "캘린더 ID" }),
-      }),
       response: {
         200: t.Object({
           message: t.String(),

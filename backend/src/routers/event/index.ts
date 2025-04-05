@@ -1,13 +1,15 @@
 import Elysia from "elysia";
 
-import list from "./list";
 import EventIdRouter from "./[:id]";
+import create from "./create";
+import list from "./list";
 
 const EventRouter = new Elysia({
   name: "Event Router",
   prefix: "event",
 })
+  .use(EventIdRouter)
   .use(list)
-  .use(EventIdRouter);
+  .use(create);
 
 export default EventRouter;

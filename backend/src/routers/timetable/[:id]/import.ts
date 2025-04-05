@@ -1,14 +1,23 @@
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 import Elysia, { t } from "elysia";
 import ical from "node-ical";
 
-import EventModel from "@back/models/event";
+import getTimetable from "@back/guards/getTimetable";
 import timetableAuthorityService from "@back/guards/timetableAuthorityService";
+import EventModel from "@back/models/event";
 import exit, { errorElysia } from "@back/utils/error";
 
-const toKST = (date: Date): Date => new Date(date.getTime() + 9 * 60 * 60 * 1000);
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+const toUTCFromICSTime = (date: Date | string, tz: string = "Asia/Seoul"): dayjs.Dayjs =>
+  dayjs.tz(date, tz);
 
 const importFromICS = new Elysia()
   .use(timetableAuthorityService)
+  .use(getTimetable)
   .use(EventModel)
   .post(
     "import",
@@ -16,64 +25,62 @@ const importFromICS = new Elysia()
       const { file } = body;
       const timetableId = timetable._id;
 
-      if (!file || !(file instanceof File)) return exit(error, "ICS_FILE_REQUIRED");
+      if (!file || !(file instanceof File))
+        return exit(error, "ICS_FILE_REQUIRED");
 
       const arrayBuffer = await file.arrayBuffer();
       const content = Buffer.from(arrayBuffer).toString("utf-8");
       const parsed = ical.parseICS(content);
 
       const inserted = [];
-
-      const expandUntil = new Date();
-      expandUntil.setMonth(expandUntil.getMonth() + 3);
+      const expandUntil = dayjs().add(3, "month");
 
       for (const key in parsed) {
         const item = parsed[key];
         if (item.type !== "VEVENT") continue;
 
-        const duration = new Date(item.end).getTime() - new Date(item.start).getTime();
+        const tz = item.start?.tz || item.end?.tz || "Asia/Seoul";
+        const start = toUTCFromICSTime(item.start, tz);
+        const end = toUTCFromICSTime(item.end, tz);
+        const duration = end.diff(start);
+
         const isAllDay =
           item.datetype === "date" ||
           (
-            item.start.getUTCHours?.() === 0 &&
-            item.start.getUTCMinutes?.() === 0 &&
-            item.end.getUTCHours?.() === 0 &&
-            item.end.getUTCMinutes?.() === 0
+            item.start?.getHours?.() === 0 &&
+            item.start?.getMinutes?.() === 0 &&
+            item.end?.getHours?.() === 0 &&
+            item.end?.getMinutes?.() === 0
           );
 
         if (item.rrule) {
-          const instances = item.rrule.between(new Date(), expandUntil);
+          const instances = item.rrule.between(new Date(), expandUntil.toDate());
 
           for (const date of instances) {
-            const instanceStart = toKST(new Date(date));
+            const instanceStart = toUTCFromICSTime(date, tz);
             const instanceEnd = isAllDay
-              ? new Date(Date.UTC(
-                  instanceStart.getUTCFullYear(),
-                  instanceStart.getUTCMonth(),
-                  instanceStart.getUTCDate(),
-                  23, 59, 59, 999
-                ))
-              : new Date(instanceStart.getTime() + duration);
+              ? instanceStart.set("hour", 23).set("minute", 59).set("second", 59).set("millisecond", 999)
+              : instanceStart.add(duration);
 
             inserted.push(await eventModel.db.create({
               timetable_id: timetableId,
               title: item.summary ?? "",
-              startTime: instanceStart,
-              endTime: instanceEnd,
+              startTime: instanceStart.format("YYYY-MM-DD HH:mm:ss"),
+              endTime: instanceEnd.format("YYYY-MM-DD HH:mm:ss"),
               isAllDay
             }));
           }
         } else {
-          const startTime = toKST(new Date(item.start));
+          const startTime = start;
           const endTime = isAllDay
-            ? new Date(Date.UTC(startTime.getUTCFullYear(), startTime.getUTCMonth(), startTime.getUTCDate(), 23, 59, 59, 999))
-            : toKST(new Date(item.end));
+            ? startTime.set("hour", 23).set("minute", 59).set("second", 59).set("millisecond", 999)
+            : end;
 
           inserted.push(await eventModel.db.create({
             timetable_id: timetableId,
             title: item.summary ?? "",
-            startTime,
-            endTime,
+            startTime: startTime.format("YYYY-MM-DD HH:mm:ss"),
+            endTime: endTime.format("YYYY-MM-DD HH:mm:ss"),
             isAllDay
           }));
         }
@@ -101,7 +108,7 @@ const importFromICS = new Elysia()
       detail: {
         tags: ["Timetable"],
         summary: "ICS 파일 가져오기",
-        description: "ICS (.ics) 파일을 업로드하고, 해당 캘린더에 이벤트를 등록합니다. 시간은 KST 기준으로 보정됩니다.",
+        description: "ICS (.ics) 파일을 업로드하고, 해당 캘린더에 이벤트를 등록합니다. ICS의 시간대에 따라 UTC로 변환됩니다.",
       },
     }
   );

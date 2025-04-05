@@ -2,8 +2,8 @@ import Elysia from "elysia";
 
 import ActivityRouter from "./activity";
 import AuthRouter from "./auth";
-import TimetableRouter from "./timetable";
 import EventRouter from "./event";
+import TimetableRouter from "./timetable";
 
 const IndexRouter = new Elysia({
   name: "Index",

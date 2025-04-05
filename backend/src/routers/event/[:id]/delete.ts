@@ -11,7 +11,10 @@ const deleteEvent = new Elysia()
       try {
         await eventModel.db.deleteOne({ _id: event._id });
 
-        return { message: "이벤트가 삭제되었습니다." };
+        return {
+          success: true,
+          message: "이벤트 삭제되었습니다.",
+        };
       }
       catch {
         return exit(error, "DELETE_FAILED");
@@ -24,6 +27,7 @@ const deleteEvent = new Elysia()
       }),
       response: {
         200: t.Object({
+          success: t.Boolean(),
           message: t.String(),
         }),
         ...errorElysia(["DELETE_FAILED"]),

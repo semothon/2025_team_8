@@ -1,7 +1,7 @@
 import Bun from "bun";
 import Elysia, { t } from "elysia";
-import mongoose, { ObjectId } from "mongoose";
 import { SignJWT, jwtVerify } from "jose";
+import mongoose, { ObjectId } from "mongoose";
 
 import { IDocument } from "@common/types/db";
 

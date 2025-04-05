@@ -1,8 +1,8 @@
 import Elysia from "elysia";
 
+import TimetableIdRouter from "./[:id]";
 import createTimetable from "./create";
 import listTimetable from "./list";
-import TimetableIdRouter from "./[:id]";
 
 const TimetableRouter = new Elysia({
   name: "Timetable Router",

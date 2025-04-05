@@ -21,7 +21,7 @@ const updateTimetable = new Elysia()
       }
       return {
         success: true,
-        message: "캘린더(시간표) 정보 수정 성공",
+        message: "캘린더(시간표) 정보 수정했습니다.",
       };
     },
     {
@@ -39,7 +39,7 @@ const updateTimetable = new Elysia()
           }),
           message: t.String({
             description: "캘린더(시간표) 정보 수정 성공 메시지",
-            examples: ["캘린더(시간표) 정보 수정 성공"],
+            examples: ["캘린더(시간표) 정보 수정했습니다."],
           }),
         }),
         ...errorElysia(["UPDATE_FAILED"]),

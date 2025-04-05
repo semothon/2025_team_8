@@ -2,8 +2,8 @@ import Elysia, { t } from "elysia";
 import { ObjectId } from "mongoose";
 
 import getUser from "@back/guards/getUser";
-import TimetableModel, { MappedTimetable, timetableElysiaSchema } from "@back/models/timetable";
 import JoinedActivityModel from "@back/models/joined_activity";
+import TimetableModel, { MappedTimetable, timetableElysiaSchema } from "@back/models/timetable";
 
 const listTimetable = new Elysia()
   .use(getUser)

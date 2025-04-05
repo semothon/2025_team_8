@@ -9,21 +9,8 @@ const updateEvent = new Elysia()
   .patch(
     "",
     async ({ body, event, eventModel, error }) => {
-      const updateData: any = {
-        ...(body.title && { title: body.title }),
-        ...(body.startTime && { startTime: new Date(body.startTime) }),
-        ...(body.endTime && { endTime: new Date(body.endTime) }),
-        ...(body.isAllDay !== undefined && { isAllDay: body.isAllDay }),
-        ...(body.repeat && {
-          repeat: {
-            frequency: body.repeat.frequency ?? null,
-            interval: body.repeat.interval ?? 1,
-            byWeekDay: body.repeat.byWeekDay,
-            bySetPosition: body.repeat.bySetPosition,
-            byMonthDay: body.repeat.byMonthDay,
-            until: body.repeat.until ? new Date(body.repeat.until) : undefined,
-          }
-        }),
+      const updateData = {
+        ...body,
       };
 
       const updated = await eventModel.db.updateOne(
@@ -37,7 +24,7 @@ const updateEvent = new Elysia()
 
       return {
         success: true,
-        message: "이벤트 수정 성공",
+        message: "이벤트 수정되었습니다.",
       };
     },
     {
@@ -53,7 +40,7 @@ const updateEvent = new Elysia()
           }),
           message: t.String({
             description: "이벤트 수정 성공 메시지",
-            examples: ["이벤트 수정 성공"],
+            examples: ["이벤트 수정되었습니다."],
           }),
         }),
         ...errorElysia(["UPDATE_FAILED"]),

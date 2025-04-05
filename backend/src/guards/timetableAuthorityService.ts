@@ -1,26 +1,37 @@
 import { Elysia } from "elysia";
 
-import TimetableModel from "@back/models/timetable";
-import JoinedActivityModel, { permissionList } from "@back/models/joined_activity";
 import ActivityModel from "@back/models/activity";
+import JoinedActivityModel, { permissionList } from "@back/models/joined_activity";
+import TimetableModel from "@back/models/timetable";
 import exit, { errorElysia } from "@back/utils/error";
 
 import getUser from "./getUser";
-import getTimetable from "./getTimetable";
 
 const timetableAuthorityService = () =>
   new Elysia()
     .use(getUser)
-    .use(getTimetable)
     .use(ActivityModel)
     .use(JoinedActivityModel)
     .use(TimetableModel)
     .guard({
       response: {
-        ...errorElysia(["UNAUTHORIZED"])
-      }
+        ...errorElysia(["UNAUTHORIZED"]),
+      },
     })
-    .resolve(async ({ timetable, user, activityModel, joinedActivityModel, error }) => {
+    .resolve(async ({ user, error, body, query, params, timetableModel, activityModel, joinedActivityModel }) => {
+      type RequestInput = { timetable_id?: string };
+
+      const timetableId =
+        (body as RequestInput)?.timetable_id ??
+        (query as RequestInput)?.timetable_id ??
+        (params as RequestInput)?.timetable_id;
+
+
+      if (!timetableId) return exit(error, "UNAUTHORIZED");
+
+      const timetable = await timetableModel.db.findById(timetableId);
+      if (!timetable) return exit(error, "UNAUTHORIZED");
+
       const ownerType = timetable.owner_type;
       const ownerId = timetable.owner?.toString();
       const userId = user._id.toString();
