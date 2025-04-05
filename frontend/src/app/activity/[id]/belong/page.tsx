@@ -11,6 +11,7 @@ import Icons from "@front/components/icons";
 import instance from "@front/utils/instance";
 
 import BackButton from "../backButton";
+import SetColor from "../setColor";
 
 interface ClubProps {
   params: {
@@ -102,7 +103,6 @@ const Club = ({ params }: ClubProps) => {
           }
         </div>
       </div>
-
       {
         boardInfo.map((board) => (
           <React.Fragment key={board._id}>
@@ -113,14 +113,26 @@ const Club = ({ params }: ClubProps) => {
           </React.Fragment>
         ))
       }
-      
-      <div className="px-4">
+        {
+          boardInfo.map((board) => (
+            <React.Fragment key={board._id}>
+              <div className="flex flex-row items-center justify-between px-4">
+                <p className="text-2xl font-bold text-dark mt-4">{board.name}</p>
+                <p className="text-dark/40 font-bold underline cursor-pointer">전체보기</p>
+              </div>
+            </React.Fragment>
+          ))
+        }
+        
+        <div className="px-4">
         <CustomCalendar timetables={[{
           timetable_id: params.id,
           name: info.name,
           color: info.key_color || "#000000",
           events: events
         }]} />
+        
+        <SetColor color={info.key_color} />
       </div>
 
     </div>
