@@ -195,34 +195,34 @@ export const activityElysiaSchema = t.Object({
   document_screening_period: t.Optional(t.Union([t.Object({
     start: t.String({
       description: "서류 전형 시작일",
-      examples: ["2024-03-07 21:00:00"],
+      examples: ["2024-04-07 21:00:00"],
     }),
     end: t.String({
       description: "서류 전형 종료일",
-      examples: ["2024-03-07 21:00:00"],
+      examples: ["2024-05-07 21:00:00"],
     }),
   }), t.Null()])),
   document_result_date: t.Optional(t.Union([t.String({
     description: "서류 합격 발표일",
-    examples: ["2024-03-07 21:00:00"],
+    examples: ["2024-05-07 21:00:00"],
   }), t.Null()])),
   interview_period: t.Optional(t.Union([t.Object({
     start: t.String({
       description: "면접 전형 시작일",
-      examples: ["2024-03-07 21:00:00"],
+      examples: ["2024-05-07 21:00:00"],
     }),
     end: t.String({
       description: "면접 전형 종료일",
-      examples: ["2024-03-07 21:00:00"],
+      examples: ["2024-06-07 21:00:00"],
     }),
   }), t.Null()])),
   interview_result_date: t.Optional(t.Union([t.String({
     description: "면접 합격 발표일",
-    examples: ["2024-03-07 21:00:00"],
+    examples: ["2024-06-07 21:00:00"],
   }), t.Null()])),
   final_result_date: t.Optional(t.Union([t.String({
     description: "최종 합격 발표일",
-    examples: ["2024-03-07 21:00:00"],
+    examples: ["2024-07-07 21:00:00"],
   }), t.Null()])),
 });
 

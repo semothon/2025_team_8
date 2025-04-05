@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import Elysia, { t } from "elysia";
 
 import applicationAuthorityService from "@back/guards/applicationAuthorityService";
@@ -10,14 +11,12 @@ const update = new Elysia()
   .patch(
     "",
     async ({ body, application, applicationModel, error }) => {
-      const now = new Date();
-
       const activity = application.activityId;
       if (!activity.document_screening_period) {
         return exit(error, "NOT_RECRUITING_PERIOD");
       }
-
-      if (now > new Date(activity.document_screening_period.end)) {
+      
+      if (dayjs(new Date()).isSameOrBefore(dayjs(activity.document_screening_period.end, "YYYY-MM-DD HH:mm:ss"))) {
         return exit(error, "RECRUITMENT_ENDED");
       }
 

@@ -1,3 +1,4 @@
+import dayjs from "dayjs";
 import Elysia, { t } from "elysia";
 
 import activityAuthorityService from "@back/guards/activityAuthorityService";
@@ -14,23 +15,25 @@ const list = new Elysia()
         .sort({ createdAt: -1 });
 
       const mappedData = applications.map((application: any) => {
-        console.log("Original application:", application);
         const mapped = {
           _id: application._id.toString(),
           userId: application.userId._id.toString(),
           userName: (application.userId as any).name,
           userEmail: (application.userId as any).email,
           activityId: application.activityId.toString(),
-          answers: application.answers,
+          answers: application.answers.map((answer: any) => ({
+            questionId: answer.questionId.toString(),
+            answer: answer.answer,
+            fileUrl: answer.fileUrl,
+          })),
           status: application.status,
           currentStage: application.currentStage,
-          interviewTime: application.interviewTime,
+          interviewTime: dayjs(application.interviewTime).format("YYYY-MM-DD HH:mm:ss"),
           interviewLocation: application.interviewLocation,
           interviewNotes: application.interviewNotes,
-          createdAt: application.createdAt,
-          updatedAt: application.updatedAt,
+          createdAt: dayjs(application.createdAt).format("YYYY-MM-DD HH:mm:ss"),
+          updatedAt: dayjs(application.updatedAt).format("YYYY-MM-DD HH:mm:ss"),
         };
-        console.log("Mapped data:", mapped);
         return mapped;
       });
 
@@ -40,9 +43,6 @@ const list = new Elysia()
       };
     },
     {
-      params: t.Object({
-        id: t.String({ description: "활동(동아리) ID" }),
-      }),
       response: {
         200: t.Object({
           success: t.Boolean({
