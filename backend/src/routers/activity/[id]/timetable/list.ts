@@ -1,11 +1,13 @@
 import Elysia, { t } from "elysia";
 
+import getActivity from "@back/guards/getActivity";
 import getUser from "@back/guards/getUser";
 import JoinedActivityModel from "@back/models/joined_activity";
 import TimetableModel, { MappedTimetable, timetableElysiaSchema } from "@back/models/timetable";
 
 const list = new Elysia()
   .use(getUser)
+  .use(getActivity)
   .use(TimetableModel)
   .use(JoinedActivityModel)
   .get(

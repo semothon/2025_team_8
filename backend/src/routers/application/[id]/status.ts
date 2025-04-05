@@ -98,4 +98,4 @@ const status = new Elysia()
     }
   );
 
-export default status; 
+export default status;

@@ -135,4 +135,4 @@ const ApplicationModel = new Elysia()
     db: ApplicationDB,
   });
 
-export default ApplicationModel; 
+export default ApplicationModel;

@@ -39,4 +39,4 @@ const getApplication = new Elysia()
   })
   .as("plugin");
 
-export default getApplication; 
+export default getApplication;

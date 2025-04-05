@@ -93,4 +93,4 @@ const update = new Elysia()
     }
   );
 
-export default update; 
+export default update;

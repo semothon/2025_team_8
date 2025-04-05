@@ -10,4 +10,4 @@ const applicationIdRouter = new Elysia({
   .use(update)
   .use(status);
 
-export default applicationIdRouter; 
+export default applicationIdRouter;
