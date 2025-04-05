@@ -3,7 +3,8 @@ import "./globals.css";
 import React from "react";
 
 import Providers from "@front/providers";
-import Header from "@front/components/layout/Header";
+import Header from "@front/components/mainLayout/Header";
+import Footer from "@front/components/mainLayout/Footer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,7 +21,8 @@ const RootLayout = ({
       <body className="antialiased">
         <Providers>
           <Header></Header>
-        <main className="container mx-auto">{children}</main>
+          <main className="w-full h-full">{children}</main>
+          <Footer></Footer>
         </Providers>
       </body>
     </html>

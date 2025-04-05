@@ -1,6 +1,6 @@
 "use client";
 
-import { searchAtom } from "@front/state/NoticeAtom";
+import { searchAtom } from "@front/state/PaginationAtom";
 import { useAtom } from "jotai";
 
 export default function SearchBar() {

@@ -2,7 +2,7 @@
 
 import { useAtom } from "jotai";
 import PostItem from "./PostItem";
-import { currentPageAtom } from "@front/state/NoticeAtom";
+import { currentPageAtom } from "@front/state/PaginationAtom";
 
 interface Post {
   id: string;

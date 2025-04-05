@@ -1,6 +1,6 @@
 "use client";
 
-import { currentPageAtom } from "@front/state/NoticeAtom";
+import { currentPageAtom } from "@front/state/PaginationAtom";
 import { useAtom } from "jotai";
 
 const totalPages = 10;

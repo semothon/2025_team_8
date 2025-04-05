@@ -1,11 +1,11 @@
-import React from "react";
+import GoogleLoginButton from "@front/components/googleLogin/GoogleLoginButton";
+import Image from "next/image";
 
-const Home = () => {
+export default function Home() {
   return (
-    <div className="">
-      main
-    </div>
-  );
-};
+    <div>
+    <h1>클럽 페이지</h1>
+  </div>
 
-export default Home;
+  );
+}

@@ -26,10 +26,10 @@ const GoogleLoginButton = () => {
 
   return (
     <button 
-      className="w-full bg-background py-4 px-5 border border-text/5 rounded flex flex-row items-center justify-center gap-2 select-none cursor-pointer drag_none"
+      className="w-full bg-background py-4 px-5 rounded-full flex flex-row items-center justify-center gap-2 select-none cursor-pointer drag_none shadow-md hover:brightness-95 transition"
       onClick={() => login()}
     >
-      <svg xmlns="http://www.w3.org/2000/svg" width="21" height="20" viewBox="0 0 21 20" fill="none">
+      <svg xmlns="http://www.w3.org/2000/svg" width="90" height="20" viewBox="0 0 21 20" fill="none" >
         <path d="M18.8334 10.193C18.8334 9.4938 18.7766 8.98359 18.6539 8.4545H10.6701V11.6102H15.3564C15.2619 12.3944 14.7517 13.5754 13.6179 14.369L13.602 14.4747L16.1263 16.4302L16.3012 16.4477C17.9074 14.9643 18.8334 12.7818 18.8334 10.193Z" fill="#4285F4"></path>
         <path d="M10.6701 18.5069C12.9659 18.5069 14.8934 17.751 16.3012 16.4472L13.6179 14.3685C12.8998 14.8693 11.9361 15.2189 10.6701 15.2189C8.4214 15.2189 6.51287 13.7355 5.83254 11.6853L5.73281 11.6937L3.108 13.7251L3.07367 13.8205C4.47199 16.5983 7.34426 18.5069 10.6701 18.5069Z" fill="#34A853"></path>
         <path d="M5.83256 11.6851C5.65305 11.156 5.54916 10.5891 5.54916 10.0033C5.54916 9.41752 5.65305 8.85065 5.82312 8.32156L5.81836 8.20887L3.16065 6.14487L3.07369 6.18623C2.49738 7.33893 2.16669 8.63336 2.16669 10.0033C2.16669 11.3733 2.49738 12.6677 3.07369 13.8204L5.83256 11.6851Z" fill="#FBBC05"></path>
