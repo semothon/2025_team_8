@@ -88,7 +88,7 @@ const update = new Elysia()
       detail: {
         tags: ["Application"],
         summary: "지원서 수정",
-        description: "지원서의 답변을 수정합니다. 지원 기간이 끝난 경우 수정할 수 없습니다.",
+        description: "지원서의 답변을 수정합니다.",
       },
     }
   );

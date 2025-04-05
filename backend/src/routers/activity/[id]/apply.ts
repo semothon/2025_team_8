@@ -91,7 +91,7 @@ const apply = new Elysia()
       detail: {
         tags: ["Application"],
         summary: "활동(동아리) 지원",
-        description: "활동(동아리)에 지원합니다. 이미 지원한 경우에는 지원할 수 없습니다.",
+        description: "활동(동아리)에 지원합니다.",
       },
     }
   );
