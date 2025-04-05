@@ -153,7 +153,7 @@ export const activityElysiaSchema = t.Object({
     description: "활동(동아리) 숨김 여부",
     examples: [false],
   }), t.Null()])),
-
+  
   homepage_url: t.Optional(t.Union([t.String({
     description: "활동(동아리) 홈페이지 URL",
     examples: [
@@ -226,61 +226,59 @@ export const activityElysiaSchema = t.Object({
   }), t.Null()])),
 });
 
-const activitySchema = new mongoose.Schema(
-  {
-    name: { type: String, required: true },
-    headline: { type: String, required: true },
-    edit_permission: {
-      type: String,
-      enum: permissionList,
-      default: "member",
-    },
-
-    big_type: {
-      type: String,
-      enum: ActivityCategory,
-      required: true,
-    },
-    small_type: { type: String, required: true },
-
-    logo_url: { type: String, required: true },
-    key_color: { type: String, required: true },
-
-    video_url: { type: String },
-    description: { type: String },
-    activity_history: { type: String },
-    awards: [
-      {
-        type: { type: String, required: true },
-        name: { type: String, required: true },
-        date: { type: String },
-      },
-    ],
-    images_url: [{ type: String }],
-    is_hidden: { type: Boolean, default: false },
-
-    questions: [{
-      id: { type: String, required: true },
-      title: { type: String, required: true },
-      type: { type: String, enum: QuestionType, required: true },
-      required: { type: Boolean, required: true },
-      maxLength: { type: Number },
-    }],
-    
-    is_always_recruiting: { type: Boolean, default: false },
-    document_screening_period: {
-      start: { type: String },
-      end: { type: String },
-    },
-    document_result_date: { type: String },
-    interview_period: {
-      start: { type: String },
-      end: { type: String },
-    },
-    interview_result_date: { type: String },
-    final_result_date: { type: String },
+const activitySchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  headline: { type: String, required: true },
+  edit_permission: {
+    type: String,
+    enum: permissionList,
+    default: "member",
   },
-);
+
+  big_type: {
+    type: String,
+    enum: ActivityCategory,
+    required: true,
+  },
+  small_type: { type: String, required: true },
+
+  logo_url: { type: String, required: true },
+  key_color: { type: String, required: true },
+
+  video_url: { type: String },
+  description: { type: String },
+  activity_history: { type: String },
+  awards: [
+    {
+      type: { type: String, required: true },
+      name: { type: String, required: true },
+      date: { type: String },
+    },
+  ],
+  images_url: [{ type: String }],
+  is_hidden: { type: Boolean, default: false },
+
+  questions: [{
+    id: { type: String, required: true },
+    title: { type: String, required: true },
+    type: { type: String, enum: QuestionType, required: true },
+    required: { type: Boolean, required: true },
+    maxLength: { type: Number },
+  }],
+    
+  is_always_recruiting: { type: Boolean, default: false },
+  document_screening_period: {
+    start: { type: String },
+    end: { type: String },
+  },
+  document_result_date: { type: String },
+  interview_period: {
+    start: { type: String },
+    end: { type: String },
+  },
+  interview_result_date: { type: String },
+  final_result_date: { type: String },
+},);
 const ActivityDB = mongoose.model<IActivity>("Activity", activitySchema);
 
 const createActivity = async (data: DActivity): Promise<IActivity> => {
