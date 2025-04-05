@@ -56,9 +56,6 @@ const status = new Elysia()
       };
     },
     {
-      params: t.Object({
-        id: t.String({ description: "지원서 ID" }),
-      }),
       body: t.Object({
         status: t.Enum(ApplicationStatus, {
           description: "변경할 지원서 상태",
